@@ -32,9 +32,21 @@ const browser = await puppeteer.launch({
 const page = await browser.newPage();
 page.setDefaultTimeout(20000);
 page.on("console", (message) => {
-  if (message.type() === "error") report.consoleErrors.push(message.text());
+  if (message.type() !== "error") return;
+  const text = message.text();
+  if (
+    report.consoleErrors.length < 10 &&
+    !report.consoleErrors.includes(text)
+  ) {
+    report.consoleErrors.push(text);
+  }
 });
-page.on("pageerror", (error) => report.pageErrors.push(String(error)));
+page.on("pageerror", (error) => {
+  const text = String(error);
+  if (report.pageErrors.length < 10 && !report.pageErrors.includes(text)) {
+    report.pageErrors.push(text);
+  }
+});
 
 async function goto(url) {
   await page.goto(`${base}${url}`, { waitUntil: "networkidle0", timeout: 60000 });
