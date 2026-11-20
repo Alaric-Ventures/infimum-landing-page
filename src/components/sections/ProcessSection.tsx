@@ -62,28 +62,40 @@ export function ProcessSection() {
           </Reveal>
         </div>
 
-        <ol className="mt-14 grid gap-8 sm:grid-cols-2 lg:mt-16 lg:grid-cols-4 lg:gap-6">
-          {steps.map((step, index) => (
-            <li key={step.number}>
-              <Reveal delay={index * 0.06} y={16} className="h-full">
-                <div className="relative h-full border-t border-slate-300/80 pt-8">
-                  <span className="absolute -top-[22px] left-0 flex size-11 items-center justify-center rounded-full border border-line bg-canvas font-mono text-[11px] font-medium tracking-[0.08em] text-brand">
-                    {step.number}
-                  </span>
-                  <h3 className="mt-2 font-display text-xl font-semibold tracking-[-0.02em] text-ink">
-                    {step.title}
-                  </h3>
-                  <p className="mt-3 text-sm leading-6 text-muted">
-                    {step.description}
-                  </p>
-                  <p className="mt-5 text-[10px] font-medium uppercase tracking-[0.14em] text-muted">
-                    {step.detail}
-                  </p>
-                </div>
-              </Reveal>
-            </li>
-          ))}
-        </ol>
+        <div className="relative mt-14 lg:mt-16">
+          <span
+            className="absolute bottom-2 left-[21px] top-2 w-px bg-line lg:hidden"
+            aria-hidden="true"
+          />
+          <ol className="grid gap-10 lg:grid-cols-4 lg:gap-6">
+            {steps.map((step, index) => (
+              <li key={step.number} className="relative pl-16 lg:pl-0">
+                {index < steps.length - 1 ? (
+                  <span
+                    className="absolute left-11 right-[-1.5rem] top-[21px] hidden h-px bg-line lg:block"
+                    aria-hidden="true"
+                  />
+                ) : null}
+                <span className="absolute left-0 top-0 z-10 flex size-11 items-center justify-center rounded-full border border-line bg-canvas font-mono text-[11px] font-medium tracking-[0.08em] text-brand lg:static lg:mb-6">
+                  {step.number}
+                </span>
+                <Reveal delay={index * 0.06} y={16}>
+                  <div className="pt-1.5 lg:pt-0">
+                    <h3 className="font-display text-xl font-semibold tracking-[-0.02em] text-ink">
+                      {step.title}
+                    </h3>
+                    <p className="mt-3 text-sm leading-6 text-muted">
+                      {step.description}
+                    </p>
+                    <p className="mt-5 text-[10px] font-medium uppercase tracking-[0.14em] text-muted">
+                      {step.detail}
+                    </p>
+                  </div>
+                </Reveal>
+              </li>
+            ))}
+          </ol>
+        </div>
 
         <p className="mt-12 max-w-2xl border-t border-line pt-6 text-xs leading-5 text-muted">
           This is a proposed consulting workflow. The shape and sequence of each

@@ -172,7 +172,7 @@
   }
 
   .animate-rise {
-    animation: rise-in 0.85s var(--ease-out-expo) both;
+    animation: rise-in 0.72s var(--ease-out-expo) both;
   }
 
   .animate-fade {
