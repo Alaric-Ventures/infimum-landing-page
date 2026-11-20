@@ -1,0 +1,234 @@
+import { Compass, Layers, RefreshCw } from "lucide-react";
+
+import { Reveal } from "@/components/ui/Reveal";
+import { cn } from "@/lib/utils";
+
+const propositions = [
+  {
+    title: "Business-led decisions",
+    description:
+      "Technology choices are tested against operational goals and commercial reality.",
+  },
+  {
+    title: "End-to-end delivery",
+    description:
+      "From early planning through build, launch and ongoing support.",
+  },
+  {
+    title: "Engagement that fits",
+    description:
+      "Support and delivery options shaped around each client’s needs and budget.",
+  },
+];
+
+const operatingLayers = [
+  {
+    number: "01",
+    title: "Direction",
+    description: "Strategy, requirements and the right technology choices.",
+    icon: Compass,
+    theme: "light" as const,
+  },
+  {
+    number: "02",
+    title: "Delivery",
+    description: "Design, engineering and integration — built with your team.",
+    icon: Layers,
+    theme: "dark" as const,
+  },
+  {
+    number: "03",
+    title: "Continuity",
+    description: "Cloud operations, support and steady improvement.",
+    icon: RefreshCw,
+    theme: "light" as const,
+  },
+];
+
+export function AboutSection() {
+  return (
+    <section
+      id="about"
+      aria-labelledby="about-heading"
+      className="relative overflow-hidden bg-canvas py-24 sm:py-28 lg:py-36"
+    >
+      <div
+        className="pointer-events-none absolute right-0 top-0 h-[34rem] w-[34rem] translate-x-1/3 -translate-y-1/4 rounded-full bg-brand/[0.06] blur-[100px]"
+        aria-hidden="true"
+      />
+      <div className="shell relative">
+        <div className="grid gap-16 lg:grid-cols-12 lg:gap-12 xl:gap-20">
+          <div className="lg:col-span-6">
+            <Reveal>
+              <p className="eyebrow text-brand">About Infimum Consulting</p>
+            </Reveal>
+
+            <Reveal delay={0.06}>
+              <h2 id="about-heading" className="text-h2 mt-6 max-w-[16ch] text-ink">
+                The business comes first. The technology follows.
+              </h2>
+            </Reveal>
+
+            <Reveal delay={0.12}>
+              <div className="mt-7 max-w-xl space-y-5 text-[1.0625rem] leading-7 text-muted">
+                <p>
+                  Infimum Consulting is an IT consultancy and managed services
+                  partner. We work with organisations to plan, design and deliver
+                  technology across custom applications, digital experiences,
+                  cloud infrastructure and Microsoft 365.
+                </p>
+                <p>
+                  Our starting point is the business need: how work gets done,
+                  where time is lost and what your teams and customers actually
+                  require. From there, we shape a solution that fits — then stay
+                  involved as it is implemented, adopted and refined.
+                </p>
+              </div>
+            </Reveal>
+
+            <Reveal delay={0.16}>
+              <div className="mt-8 border-l-2 border-brand/30 pl-5">
+                <p className="max-w-lg text-sm leading-6 text-ink/70">
+                  Our mission is straightforward: high-quality technology
+                  services at a sensible cost, with engagement options that
+                  respect each client’s needs and budget.
+                </p>
+              </div>
+            </Reveal>
+
+            <Reveal delay={0.2}>
+              <ul className="mt-10 border-t border-line">
+                {propositions.map((item, index) => (
+                  <li
+                    key={item.title}
+                    className="grid gap-2 border-b border-line py-5 sm:grid-cols-[auto_1fr] sm:gap-6"
+                  >
+                    <span className="font-mono text-[10px] tracking-[0.16em] text-brand/70 sm:pt-1">
+                      {String(index + 1).padStart(2, "0")}
+                    </span>
+                    <div>
+                      <h3 className="text-[15px] font-semibold text-ink">
+                        {item.title}
+                      </h3>
+                      <p className="mt-1.5 text-sm leading-6 text-muted">
+                        {item.description}
+                      </p>
+                    </div>
+                  </li>
+                ))}
+              </ul>
+            </Reveal>
+
+            <Reveal delay={0.24}>
+              <a
+                href="#contact"
+                className="group mt-8 inline-flex items-center gap-2 text-sm font-semibold text-brand"
+              >
+                Start a conversation
+                <span className="inline-block transition-transform duration-200 group-hover:translate-x-1">
+                  →
+                </span>
+              </a>
+            </Reveal>
+          </div>
+
+          <div className="lg:col-span-6 xl:col-span-6 xl:col-start-7">
+            <Reveal delay={0.1} y={24}>
+              <div className="relative">
+                <div
+                  className="pointer-events-none absolute -inset-6 rounded-[2rem] bg-brand/[0.05] blur-2xl lg:-inset-10"
+                  aria-hidden="true"
+                />
+                <div className="relative overflow-hidden rounded-2xl border border-line bg-white shadow-[0_30px_90px_-50px_rgba(15,23,42,0.45)]">
+                  <div className="flex items-center justify-between border-b border-line px-6 py-4">
+                    <span className="font-mono text-[10px] uppercase tracking-[0.2em] text-muted">
+                      Operating model
+                    </span>
+                    <span className="font-mono text-[10px] tracking-[0.16em] text-muted/60">
+                      INF / 01
+                    </span>
+                  </div>
+
+                  <div className="relative p-6 sm:p-8">
+                    <div
+                      className="pointer-events-none absolute inset-0 dot-grid opacity-60 [mask-image:linear-gradient(to_bottom,black,transparent)]"
+                      aria-hidden="true"
+                    />
+
+                    <div className="relative space-y-3">
+                      {operatingLayers.map((layer) => {
+                        const Icon = layer.icon;
+                        const isDark = layer.theme === "dark";
+                        return (
+                          <div
+                            key={layer.number}
+                            className={cn(
+                              "relative rounded-xl border p-5 transition-transform duration-300 sm:p-6",
+                              isDark
+                                ? "border-deep bg-midnight text-white shadow-[0_20px_50px_-30px_rgba(11,18,33,0.8)] sm:ml-8"
+                                : "border-line bg-white/90 backdrop-blur-sm hover:-translate-y-0.5",
+                            )}
+                          >
+                            <div className="flex items-start justify-between gap-6">
+                              <div>
+                                <span
+                                  className={cn(
+                                    "font-mono text-[10px] tracking-[0.16em]",
+                                    isDark ? "text-accent" : "text-brand/70",
+                                  )}
+                                >
+                                  {layer.number}
+                                </span>
+                                <h3
+                                  className={cn(
+                                    "mt-2 font-display text-lg font-semibold tracking-[-0.02em]",
+                                    isDark ? "text-white" : "text-ink",
+                                  )}
+                                >
+                                  {layer.title}
+                                </h3>
+                                <p
+                                  className={cn(
+                                    "mt-1.5 max-w-[26rem] text-[13px] leading-5",
+                                    isDark ? "text-white/55" : "text-muted",
+                                  )}
+                                >
+                                  {layer.description}
+                                </p>
+                              </div>
+                              <span
+                                className={cn(
+                                  "flex size-9 shrink-0 items-center justify-center rounded-lg border",
+                                  isDark
+                                    ? "border-white/15 bg-white/[0.06] text-accent"
+                                    : "border-line bg-canvas text-brand",
+                                )}
+                                aria-hidden="true"
+                              >
+                                <Icon className="size-4" />
+                              </span>
+                            </div>
+                          </div>
+                        );
+                      })}
+                    </div>
+
+                    <div className="relative mt-6 flex items-center gap-3 border-t border-line pt-5">
+                      <span
+                        className="size-1.5 rounded-full bg-accent"
+                        aria-hidden="true"
+                      />
+                      <p className="text-[10px] font-medium uppercase tracking-[0.18em] text-muted">
+                        One team, from direction to support
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </Reveal>
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+}
