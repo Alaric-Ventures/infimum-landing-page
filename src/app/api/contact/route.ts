@@ -119,7 +119,7 @@ export async function POST(request: Request) {
 
     if (result === "not-configured") {
       return jsonError(
-        "The enquiry form is not connected to the email service yet. Please call us on +61 405 364 625.",
+        "The enquiry form is not connected to the email service yet.",
         "NOT_CONFIGURED",
         503,
       );

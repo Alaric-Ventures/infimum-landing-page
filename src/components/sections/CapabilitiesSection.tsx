@@ -50,7 +50,7 @@ export function CapabilitiesSection() {
                     <span className="flex size-10 items-center justify-center rounded-lg border border-line bg-canvas text-brand transition-colors duration-300 group-hover:border-brand/25 group-hover:bg-white">
                       <Icon className="size-[18px]" aria-hidden="true" />
                     </span>
-                    <span className="font-mono text-[10px] tracking-[0.16em] text-muted/60">
+                    <span className="font-mono text-[10px] tracking-[0.16em] text-muted">
                       {String(index + 1).padStart(2, "0")}
                     </span>
                   </div>

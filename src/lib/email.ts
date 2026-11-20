@@ -38,6 +38,7 @@ export async function sendContactEmail(
 
   const serviceLabel = getServiceLabel(values.service);
   const company = values.company?.trim() || "Not provided";
+  const subjectName = values.fullName.replace(/[\r\n]+/g, " ").slice(0, 80);
   const submittedAt = new Intl.DateTimeFormat("en-AU", {
     dateStyle: "medium",
     timeStyle: "short",
@@ -90,7 +91,7 @@ export async function sendContactEmail(
         from: config.from,
         to: [config.to],
         reply_to: values.email,
-        subject: `New enquiry — ${serviceLabel} — ${values.fullName}`,
+        subject: `New enquiry — ${serviceLabel} — ${subjectName}`,
         text,
         html,
       }),

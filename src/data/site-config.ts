@@ -7,7 +7,7 @@ export const siteConfig = {
   url: siteUrl,
   title: "Infimum Consulting | IT Consulting, Software & Cloud Solutions",
   description:
-    "Infimum Consulting helps organisations plan, build and run better technology — custom software, mobile applications, websites, cloud infrastructure and Microsoft 365 solutions across Australia and the United States.",
+    "IT consulting, custom software, cloud and Microsoft 365 solutions for organisations across Australia and the United States.",
   shortDescription:
     "Technology consulting, software engineering and cloud solutions for organisations in Australia and the United States.",
   tagline: "Technology that moves business forward.",
