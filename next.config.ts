@@ -58,6 +58,9 @@ const legacyRedirects = [
 ];
 
 const nextConfig: NextConfig = {
+  // The default is `.next`. An isolated directory is useful for QA when a
+  // separate Next.js process is already watching the project.
+  distDir: process.env.NEXT_DIST_DIR || ".next",
   poweredByHeader: false,
   reactStrictMode: true,
   async headers() {
