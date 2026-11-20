@@ -49,6 +49,11 @@ async function reduceMotion() {
 }
 
 async function runAxe(label) {
+  await page.addStyleTag({
+    content:
+      "[data-reveal] { opacity: 1 !important; transform: none !important; }",
+  });
+  await sleep(200);
   await page.addScriptTag({ path: axePath });
   const result = await page.evaluate(async () => {
     return window.axe.run(document, {
@@ -92,7 +97,7 @@ try {
         scrollWidth: doc.scrollWidth,
         canScrollHorizontally: scrollX > 0,
         h1Count: document.querySelectorAll("h1").length,
-        serviceCount: document.querySelectorAll('[id^="service-"]').length,
+        serviceCount: document.querySelectorAll('article[id^="service-"]').length,
       };
     });
     report.viewportChecks.push({ width, ...layout });
@@ -103,38 +108,53 @@ try {
   await goto("/");
   await page.screenshot({ path: path.join(outDir, "desktop-hero.png") });
   await page.screenshot({
-    path: path.join(outDir, "desktop-full.png"),
+    path: path.join(outDir, "desktop-full.jpg"),
     fullPage: true,
+    type: "jpeg",
+    quality: 55,
   });
 
-  await page.evaluate(() => {
-    const target = document.getElementById("services");
-    window.scrollTo(0, (target?.offsetTop ?? 0) - 96);
-  });
-  await sleep(300);
-  await page.screenshot({ path: path.join(outDir, "desktop-services.png") });
+  const snap = async (id, name) => {
+    await page.evaluate((sectionId) => {
+      const target = document.getElementById(sectionId);
+      window.scrollTo(0, (target?.offsetTop ?? 0) - 96);
+    }, id);
+    await sleep(350);
+    await page.screenshot({ path: path.join(outDir, `${name}.png`) });
+  };
 
+  await snap("about", "desktop-about");
+  await snap("services", "desktop-services");
+  await snap("why-us", "desktop-why");
+  await snap("approach", "desktop-approach");
   await page.evaluate(() => {
-    const target = document.getElementById("contact");
+    const target = document.querySelector(
+      'section[aria-labelledby="cta-heading"]',
+    );
     window.scrollTo(0, (target?.offsetTop ?? 0) - 96);
   });
-  await sleep(300);
-  await page.screenshot({ path: path.join(outDir, "desktop-contact.png") });
+  await sleep(350);
+  await page.screenshot({ path: path.join(outDir, "desktop-cta.png") });
+  await snap("contact", "desktop-contact");
 
   // 3. Tablet and mobile screenshots.
   await page.setViewport({ width: 768, height: 1024, deviceScaleFactor: 1 });
   await goto("/");
   await page.screenshot({
-    path: path.join(outDir, "tablet-full.png"),
+    path: path.join(outDir, "tablet-full.jpg"),
     fullPage: true,
+    type: "jpeg",
+    quality: 55,
   });
 
   await page.setViewport({ width: 390, height: 844, deviceScaleFactor: 1 });
   await goto("/");
   await page.screenshot({ path: path.join(outDir, "mobile-hero.png") });
   await page.screenshot({
-    path: path.join(outDir, "mobile-full.png"),
+    path: path.join(outDir, "mobile-full.jpg"),
     fullPage: true,
+    type: "jpeg",
+    quality: 55,
   });
 
   await page.setViewport({ width: 320, height: 844, deviceScaleFactor: 1 });

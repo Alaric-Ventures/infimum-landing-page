@@ -36,7 +36,7 @@ export function ContactSection() {
         <div className="grid gap-14 lg:grid-cols-[0.85fr_1.15fr] lg:gap-16 xl:gap-24">
           <div>
             <Reveal>
-              <p className="eyebrow text-brand">Contact</p>
+              <p className="eyebrow text-brand-dark">Contact</p>
             </Reveal>
             <Reveal delay={0.06}>
               <h2
@@ -91,13 +91,13 @@ export function ContactSection() {
                 </p>
                 <ol className="mt-4 space-y-3">
                   <li className="flex items-start gap-3 text-sm leading-6 text-muted">
-                    <span className="mt-1 font-mono text-[10px] text-brand/70">
+                    <span className="mt-1 font-mono text-[10px] text-brand">
                       01
                     </span>
                     We review your enquiry and the context you’ve shared.
                   </li>
                   <li className="flex items-start gap-3 text-sm leading-6 text-muted">
-                    <span className="mt-1 font-mono text-[10px] text-brand/70">
+                    <span className="mt-1 font-mono text-[10px] text-brand">
                       02
                     </span>
                     We come back to arrange a short, no-obligation conversation.
@@ -117,7 +117,7 @@ export function ContactSection() {
                     required.
                   </p>
                 </div>
-                <span className="hidden font-mono text-[10px] tracking-[0.16em] text-muted/60 sm:block">
+                <span className="hidden font-mono text-[10px] tracking-[0.16em] text-muted sm:block">
                   ENQ / 01
                 </span>
               </div>

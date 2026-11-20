@@ -231,7 +231,7 @@ export function HeroVisual() {
         </g>
       </svg>
 
-      <div className="absolute left-0 top-[3%] flex items-center gap-2.5 text-[9px] font-medium uppercase tracking-[0.22em] text-white/35">
+      <div className="absolute left-0 top-[3%] flex items-center gap-2.5 text-[9px] font-medium uppercase tracking-[0.22em] text-white/60">
         <span className="size-1.5 rounded-full bg-accent" aria-hidden="true" />
         System map / 01
       </div>
@@ -239,13 +239,13 @@ export function HeroVisual() {
       <div className="absolute inset-x-0 bottom-0 grid grid-cols-3 gap-3 border-t border-white/10 pt-4">
         {layers.map((layer) => (
           <div key={layer.id}>
-            <p className="font-mono text-[9px] tracking-[0.12em] text-accent/70">
+            <p className="font-mono text-[9px] tracking-[0.12em] text-accent">
               {layer.id}
             </p>
             <p className="mt-1 text-[10px] font-medium uppercase tracking-[0.1em] text-white/70 sm:text-[11px]">
               {layer.title}
             </p>
-            <p className="mt-1 hidden text-[10px] leading-4 text-white/30 sm:block">
+            <p className="mt-1 hidden text-[10px] leading-4 text-white/60 sm:block">
               {layer.description}
             </p>
           </div>

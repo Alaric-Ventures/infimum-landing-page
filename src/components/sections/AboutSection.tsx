@@ -60,7 +60,7 @@ export function AboutSection() {
         <div className="grid gap-16 lg:grid-cols-12 lg:gap-12 xl:gap-20">
           <div className="lg:col-span-6">
             <Reveal>
-              <p className="eyebrow text-brand">About Infimum Consulting</p>
+              <p className="eyebrow text-brand-dark">About Infimum Consulting</p>
             </Reveal>
 
             <Reveal delay={0.06}>
@@ -103,7 +103,7 @@ export function AboutSection() {
                     key={item.title}
                     className="grid gap-2 border-b border-line py-5 sm:grid-cols-[auto_1fr] sm:gap-6"
                   >
-                    <span className="font-mono text-[10px] tracking-[0.16em] text-brand/70 sm:pt-1">
+                    <span className="font-mono text-[10px] tracking-[0.16em] text-brand sm:pt-1">
                       {String(index + 1).padStart(2, "0")}
                     </span>
                     <div>
@@ -144,7 +144,7 @@ export function AboutSection() {
                     <span className="font-mono text-[10px] uppercase tracking-[0.2em] text-muted">
                       Operating model
                     </span>
-                    <span className="font-mono text-[10px] tracking-[0.16em] text-muted/60">
+                    <span className="font-mono text-[10px] tracking-[0.16em] text-muted">
                       INF / 01
                     </span>
                   </div>
@@ -174,7 +174,7 @@ export function AboutSection() {
                                 <span
                                   className={cn(
                                     "font-mono text-[10px] tracking-[0.16em]",
-                                    isDark ? "text-accent" : "text-brand/70",
+                                    isDark ? "text-accent" : "text-brand",
                                   )}
                                 >
                                   {layer.number}

@@ -50,23 +50,22 @@ export function MobileNavigation({
             <ul className="w-full border-t border-white/10">
               {navigation.map((item, index) => (
                 <li key={item.id} className="border-b border-white/10">
-                  <Dialog.Close asChild>
-                    <a
-                      href={item.href}
-                      className="group flex items-center gap-4 py-4"
-                    >
+                  <a
+                    href={item.href}
+                    onClick={() => onOpenChange(false)}
+                    className="group flex items-center gap-4 py-4"
+                  >
                       <span className="font-mono text-[10px] tracking-[0.18em] text-white/60">
                         {String(index + 1).padStart(2, "0")}
                       </span>
                       <span className="font-display text-[clamp(1.6rem,8vw,2.5rem)] font-medium tracking-[-0.03em] text-white">
                         {item.label}
                       </span>
-                      <ArrowUpRight
-                        className="ml-auto size-5 -translate-x-1 text-white/30 transition-all duration-200 group-hover:translate-x-0 group-hover:text-accent"
-                        aria-hidden="true"
-                      />
-                    </a>
-                  </Dialog.Close>
+                    <ArrowUpRight
+                      className="ml-auto size-5 -translate-x-1 text-white/40 transition-all duration-200 group-hover:translate-x-0 group-hover:text-accent"
+                      aria-hidden="true"
+                    />
+                  </a>
                 </li>
               ))}
             </ul>
@@ -94,12 +93,10 @@ export function MobileNavigation({
                 size="md"
                 className="w-full sm:w-auto"
               >
-                <Dialog.Close asChild>
-                  <a href="#contact">
-                    Let’s talk
-                    <ArrowUpRight className="size-4" aria-hidden="true" />
-                  </a>
-                </Dialog.Close>
+                <a href="#contact" onClick={() => onOpenChange(false)}>
+                  Let’s talk
+                  <ArrowUpRight className="size-4" aria-hidden="true" />
+                </a>
               </Button>
             </div>
           </div>

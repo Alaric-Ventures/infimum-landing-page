@@ -116,7 +116,7 @@ export function WhyChooseUsSection() {
                         </span>
                         <div className="min-w-0">
                           <div className="flex items-baseline gap-3">
-                            <span className="font-mono text-[10px] tracking-[0.16em] text-white/25">
+                            <span className="font-mono text-[10px] tracking-[0.16em] text-white/55">
                               {String(index + 1).padStart(2, "0")}
                             </span>
                             <h3 className="text-lg font-medium tracking-[-0.015em] text-white">

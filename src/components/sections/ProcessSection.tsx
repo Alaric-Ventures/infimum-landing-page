@@ -42,7 +42,7 @@ export function ProcessSection() {
         <div className="flex flex-col justify-between gap-8 lg:flex-row lg:items-end">
           <div>
             <Reveal>
-              <p className="eyebrow text-brand">Our approach</p>
+              <p className="eyebrow text-brand-dark">Our approach</p>
             </Reveal>
             <Reveal delay={0.06}>
               <h2
@@ -76,7 +76,7 @@ export function ProcessSection() {
                   <p className="mt-3 text-sm leading-6 text-muted">
                     {step.description}
                   </p>
-                  <p className="mt-5 text-[10px] font-medium uppercase tracking-[0.14em] text-muted/60">
+                  <p className="mt-5 text-[10px] font-medium uppercase tracking-[0.14em] text-muted">
                     {step.detail}
                   </p>
                 </div>

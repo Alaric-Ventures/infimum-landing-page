@@ -17,7 +17,7 @@ export function ServicesSection() {
         <div className="flex flex-col justify-between gap-8 lg:flex-row lg:items-end">
           <div className="max-w-2xl">
             <Reveal>
-              <p className="eyebrow text-brand">What we do</p>
+              <p className="eyebrow text-brand-dark">What we do</p>
             </Reveal>
             <Reveal delay={0.06}>
               <h2
@@ -90,7 +90,7 @@ export function ServicesSection() {
                     <span
                       className={cn(
                         "font-mono text-[10px] tracking-[0.16em]",
-                        featured ? "text-white/30" : "text-muted/50",
+                        featured ? "text-white/60" : "text-muted",
                       )}
                     >
                       {serviceNumber} / 06
@@ -112,7 +112,7 @@ export function ServicesSection() {
                       <p
                         className={cn(
                           "mt-1.5 text-[10px] font-medium uppercase tracking-[0.14em]",
-                          featured ? "text-white/35" : "text-muted/60",
+                          featured ? "text-white/60" : "text-muted",
                         )}
                       >
                         {service.legacyName}
@@ -154,7 +154,7 @@ export function ServicesSection() {
                   <div className="relative mt-auto flex items-center justify-between gap-4 pt-7">
                     <Link
                       href={`/?service=${service.slug}#contact`}
-                      aria-label={`Discuss ${service.title} with Infimum Consulting`}
+                      aria-label={`Discuss this service: ${service.title}`}
                       className={cn(
                         "inline-flex items-center gap-2 text-[13px] font-semibold transition-colors duration-200",
                         featured

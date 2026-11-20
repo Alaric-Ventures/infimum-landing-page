@@ -38,8 +38,8 @@ export function HeroSection() {
               className="text-display animate-rise mt-7 text-white"
               style={{ animationDelay: "140ms" }}
             >
-              <span className="block">Technology that</span>
-              <span className="block">moves business</span>
+              <span className="block">Technology that</span>{" "}
+              <span className="block">moves business</span>{" "}
               <span className="relative inline-block text-accent">
                 forward.
                 <svg
