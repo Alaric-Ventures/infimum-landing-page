@@ -136,6 +136,7 @@ try {
   };
 
   await snap("about", "desktop-about");
+  await snap("gallery", "desktop-gallery");
   await snap("services", "desktop-services");
   await snap("why-us", "desktop-why");
   await snap("approach", "desktop-approach");
@@ -162,6 +163,8 @@ try {
   await page.setViewport({ width: 390, height: 844, deviceScaleFactor: 1 });
   await goto("/");
   await page.screenshot({ path: path.join(outDir, "mobile-hero.png") });
+  await snap("approach", "mobile-approach");
+  await snap("gallery", "mobile-gallery");
   await page.screenshot({
     path: path.join(outDir, "mobile-full.jpg"),
     fullPage: true,
@@ -173,7 +176,148 @@ try {
   await goto("/");
   await page.screenshot({ path: path.join(outDir, "mobile-320-hero.png") });
 
-  // 4. Desktop anchor navigation.
+  // 4. Gallery marquee behavior.
+  const gallerySnapshot = async () => {
+    await page.evaluate(() => {
+      const target = document.getElementById("gallery");
+      window.scrollTo(0, (target?.offsetTop ?? 0) - 96);
+    });
+    await sleep(700);
+  };
+
+  const readTrackX = () =>
+    page.evaluate(() => {
+      const first = document.querySelector('ul[aria-label="Technology showcase"]');
+      const track = first?.parentElement;
+      if (!track) return null;
+      const transform = getComputedStyle(track).transform;
+      return transform === "none"
+        ? 0
+        : new DOMMatrixReadOnly(transform).m41;
+    });
+
+  await page.emulateMediaFeatures([
+    { name: "prefers-reduced-motion", value: "no-preference" },
+  ]);
+  await page.setViewport({ width: 1440, height: 1000, deviceScaleFactor: 1 });
+  await goto("/");
+  await gallerySnapshot();
+
+  const galleryMetrics = await page.evaluate(() => {
+    const region = document.querySelector(
+      '[role="region"][aria-label="Technology in motion image gallery"]',
+    );
+    const first = document.querySelector('ul[aria-label="Technology showcase"]');
+    const second = first?.nextElementSibling;
+    const track = first?.parentElement;
+    const firstBox = first?.getBoundingClientRect();
+    const secondBox = second?.getBoundingClientRect();
+    const trackStyle = track ? getComputedStyle(track) : null;
+
+    return {
+      cardCount: document.querySelectorAll("[data-gallery-card]").length,
+      firstAltCount: Array.from(first?.querySelectorAll("img") ?? []).filter(
+        (image) => image.alt,
+      ).length,
+      duplicateAltCount: Array.from(
+        second?.querySelectorAll("img") ?? [],
+      ).filter((image) => image.alt).length,
+      duplicateAriaHidden: second?.getAttribute("aria-hidden"),
+      equalGroupWidths: Boolean(
+        firstBox && secondBox && Math.abs(firstBox.width - secondBox.width) < 1,
+      ),
+      seamGap:
+        firstBox && secondBox ? Math.round(secondBox.left - firstBox.right) : null,
+      trackGap: trackStyle ? parseFloat(trackStyle.columnGap) : null,
+      tabIndex: region?.tabIndex,
+      describedBy: region?.getAttribute("aria-describedby"),
+      instructions: document
+        .getElementById("gallery-instructions")
+        ?.textContent?.trim(),
+    };
+  });
+
+  const autoStart = await readTrackX();
+  await sleep(900);
+  const autoEnd = await readTrackX();
+  await page.screenshot({
+    path: path.join(outDir, "desktop-gallery-live.png"),
+  });
+
+  const galleryBox = await page.$eval(
+    '[role="region"][aria-label="Technology in motion image gallery"]',
+    (region) => {
+      const box = region.getBoundingClientRect();
+      return { x: box.x + box.width / 2, y: box.y + box.height / 2 };
+    },
+  );
+  await page.mouse.move(galleryBox.x, galleryBox.y);
+  await sleep(300);
+  const hoverStart = await readTrackX();
+  await sleep(500);
+  const hoverEnd = await readTrackX();
+  await page.mouse.move(2, 2);
+  await sleep(500);
+  const resumed = await readTrackX();
+
+  await page.focus(
+    '[role="region"][aria-label="Technology in motion image gallery"]',
+  );
+  await sleep(300);
+  const keyStart = await readTrackX();
+  await page.keyboard.press("ArrowRight");
+  await sleep(400);
+  const keyEnd = await readTrackX();
+
+  await reduceMotion();
+  await goto("/");
+  await gallerySnapshot();
+  const reducedStart = await readTrackX();
+  await sleep(700);
+  const reducedEnd = await readTrackX();
+
+  report.functional.push({
+    name: "Gallery: seamless duplicate, movement, pause and reduced motion",
+    pass:
+      galleryMetrics.cardCount === 18 &&
+      galleryMetrics.firstAltCount === 9 &&
+      galleryMetrics.duplicateAltCount === 0 &&
+      galleryMetrics.duplicateAriaHidden === "true" &&
+      galleryMetrics.equalGroupWidths &&
+      galleryMetrics.trackGap !== null &&
+      Math.abs((galleryMetrics.seamGap ?? -1) - (galleryMetrics.trackGap ?? 0)) < 1 &&
+      galleryMetrics.tabIndex === 0 &&
+      galleryMetrics.describedBy === "gallery-instructions" &&
+      Boolean(galleryMetrics.instructions) &&
+      autoStart !== null &&
+      autoEnd !== null &&
+      Math.abs(autoEnd - autoStart) > 10 &&
+      hoverStart !== null &&
+      hoverEnd !== null &&
+      Math.abs(hoverEnd - hoverStart) < 1 &&
+      resumed !== null &&
+      Math.abs(resumed - hoverEnd) > 1 &&
+      keyStart !== null &&
+      keyEnd !== null &&
+      Math.abs(keyEnd - keyStart) > 50 &&
+      reducedStart !== null &&
+      reducedEnd !== null &&
+      Math.abs(reducedEnd - reducedStart) < 1,
+    detail: {
+      ...galleryMetrics,
+      autoStart,
+      autoEnd,
+      hoverStart,
+      hoverEnd,
+      resumed,
+      keyStart,
+      keyEnd,
+      reducedStart,
+      reducedEnd,
+    },
+  });
+
+  // 5. Desktop anchor navigation.
   await page.setViewport({ width: 1440, height: 1000, deviceScaleFactor: 1 });
   await goto("/");
   await page.click('nav[aria-label="Primary"] a[href="#services"]');
@@ -200,7 +344,7 @@ try {
     detail: navCheck,
   });
 
-  // 5. Link and content audit.
+  // 6. Link and content audit.
   await goto("/");
   const linkAudit = await page.evaluate(() => {
     const anchors = Array.from(document.querySelectorAll("a"));
@@ -241,7 +385,7 @@ try {
     detail: linkAudit,
   });
 
-  // 6. Mobile navigation open, close and navigate.
+  // 7. Mobile navigation open, close and navigate.
   await page.setViewport({ width: 390, height: 844, deviceScaleFactor: 1 });
   await goto("/");
   await page.click('button[aria-controls="mobile-navigation"]');
@@ -293,7 +437,7 @@ try {
     detail: mobileNavCheck,
   });
 
-  // 7. Contact form validation and honest server failure handling.
+  // 8. Contact form validation and honest server failure handling.
   await page.setViewport({ width: 1440, height: 1000, deviceScaleFactor: 1 });
   await goto("/#contact");
   await page.waitForSelector("#contact form");
@@ -364,7 +508,7 @@ try {
     },
   });
 
-  // 8. Service deep link preselect.
+  // 9. Service deep link preselect.
   await goto("/?service=website-design-development#contact");
   await page.waitForSelector("#service");
   await sleep(400);

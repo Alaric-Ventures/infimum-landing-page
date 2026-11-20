@@ -47,14 +47,14 @@ export function ServicesSection() {
                 key={service.slug}
                 delay={index * 0.04}
                 y={20}
-                className={cn("h-full", featured && "lg:col-span-2")}
+                className="h-full"
               >
                 <article
                   id={`service-${service.slug}`}
                   className={cn(
                     "group relative flex h-full scroll-mt-28 flex-col overflow-hidden rounded-xl border p-6 transition-[transform,border-color,box-shadow] duration-300 hover:-translate-y-1 focus-within:border-brand/40 sm:p-7",
                     featured
-                      ? "border-deep bg-midnight text-white hover:border-brand/60 hover:shadow-[0_30px_80px_-40px_rgba(11,18,33,0.55)] lg:p-8"
+                      ? "border-deep bg-midnight text-white hover:border-brand/60 hover:shadow-[0_30px_80px_-40px_rgba(11,18,33,0.55)]"
                       : "border-line bg-white hover:border-brand/30 hover:shadow-[0_24px_60px_-40px_rgba(15,23,42,0.4)]",
                   )}
                 >
@@ -100,10 +100,8 @@ export function ServicesSection() {
                   <div className="relative">
                     <h3
                       className={cn(
-                        "mt-6 font-display font-semibold leading-[1.15] tracking-[-0.025em]",
-                        featured
-                          ? "text-[1.55rem] text-white sm:text-[1.75rem]"
-                          : "text-[1.25rem] text-ink",
+                        "mt-6 font-display text-[1.25rem] font-semibold leading-[1.15] tracking-[-0.025em]",
+                        featured ? "text-white" : "text-ink",
                       )}
                     >
                       {service.title}
@@ -121,7 +119,7 @@ export function ServicesSection() {
                     <p
                       className={cn(
                         "mt-3 text-sm leading-6",
-                        featured ? "max-w-2xl text-white/60" : "text-muted",
+                        featured ? "text-white/60" : "text-muted",
                       )}
                     >
                       {service.summary}
@@ -132,7 +130,7 @@ export function ServicesSection() {
                     className={cn(
                       "relative mt-6 grid gap-2.5 border-t pt-5 text-[13px] leading-5",
                       featured
-                        ? "border-white/10 text-white/60 sm:grid-cols-2 sm:gap-x-8"
+                        ? "border-white/10 text-white/60"
                         : "border-line text-muted",
                     )}
                     aria-label={`${service.title} capabilities`}

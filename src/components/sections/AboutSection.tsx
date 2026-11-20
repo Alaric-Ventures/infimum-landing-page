@@ -1,4 +1,4 @@
-import { Compass, Layers, RefreshCw } from "lucide-react";
+import { Cloud, Code, Compass } from "lucide-react";
 
 import { Reveal } from "@/components/ui/Reveal";
 import { cn } from "@/lib/utils";
@@ -24,23 +24,23 @@ const propositions = [
 const operatingLayers = [
   {
     number: "01",
-    title: "Direction",
-    description: "Strategy, requirements and the right technology choices.",
+    title: "Strategy & architecture",
+    description: "Business direction, requirements and system design.",
     icon: Compass,
     theme: "light" as const,
   },
   {
     number: "02",
-    title: "Delivery",
-    description: "Design, engineering and integration — built with your team.",
-    icon: Layers,
+    title: "Engineering & integration",
+    description: "Design, build and connect the solution with your team.",
+    icon: Code,
     theme: "dark" as const,
   },
   {
     number: "03",
-    title: "Continuity",
-    description: "Cloud operations, support and steady improvement.",
-    icon: RefreshCw,
+    title: "Cloud & operations",
+    description: "Platforms, support and steady improvement.",
+    icon: Cloud,
     theme: "light" as const,
   },
 ];
@@ -142,7 +142,7 @@ export function AboutSection() {
                 <div className="relative overflow-hidden rounded-2xl border border-line bg-white shadow-[0_30px_90px_-50px_rgba(15,23,42,0.45)]">
                   <div className="flex items-center justify-between border-b border-line px-6 py-4">
                     <span className="font-mono text-[10px] uppercase tracking-[0.2em] text-muted">
-                      Operating model
+                      Connected delivery model
                     </span>
                     <span className="font-mono text-[10px] tracking-[0.16em] text-muted">
                       INF / 01
@@ -219,7 +219,7 @@ export function AboutSection() {
                         aria-hidden="true"
                       />
                       <p className="text-[10px] font-medium uppercase tracking-[0.18em] text-muted">
-                        One team, from direction to support
+                        One connected model, from strategy to support
                       </p>
                     </div>
                   </div>
