@@ -30,4 +30,5 @@ yarn-error.log*
 # local design reference material
 /_source/
 /_screenshots/
-.env.example
+*.env
+*.env.example
