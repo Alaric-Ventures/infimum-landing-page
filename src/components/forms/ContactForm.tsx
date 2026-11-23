@@ -32,7 +32,7 @@ const defaultValues: ContactFormValues = {
 
 const labelClass = "mb-2 block text-[13px] font-medium text-ink";
 const fieldClass =
-  "h-12 w-full rounded-lg border border-line bg-white px-4 text-[15px] text-ink placeholder:text-slate-500 transition-colors focus:border-brand focus:outline-none focus:ring-2 focus:ring-brand/15 aria-[invalid=true]:border-red-400 aria-[invalid=true]:focus:ring-red-100";
+  "h-12 w-full rounded-lg border border-card-line bg-white px-4 text-[15px] text-ink placeholder:text-slate-500 transition-colors focus:border-brand focus:outline-none focus:ring-2 focus:ring-brand/15 aria-[invalid=true]:border-red-400 aria-[invalid=true]:focus:ring-red-100";
 
 type ApiResponse = {
   ok?: boolean;
@@ -354,7 +354,7 @@ export function ContactForm() {
         </div>
       ) : null}
 
-      <div className="mt-6 flex flex-col gap-4 border-t border-line pt-6 sm:flex-row sm:items-center sm:justify-between">
+      <div className="mt-6 flex flex-col gap-4 border-t border-card-line pt-6 sm:flex-row sm:items-center sm:justify-between">
         <p className="max-w-[17rem] text-xs leading-5 text-muted">
           We’ll only use your details to respond to this enquiry.
         </p>

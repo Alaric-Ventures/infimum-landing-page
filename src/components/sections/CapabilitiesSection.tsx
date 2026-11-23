@@ -35,7 +35,7 @@ export function CapabilitiesSection() {
         Core capabilities
       </h2>
       <div className="shell">
-        <div className="grid grid-cols-1 gap-px bg-line sm:grid-cols-2 lg:grid-cols-4">
+        <div className="grid grid-cols-1 gap-3 py-5 sm:grid-cols-2 sm:py-6 lg:grid-cols-4">
           {capabilities.map((capability, index) => {
             const Icon = capability.icon;
             return (
@@ -43,11 +43,11 @@ export function CapabilitiesSection() {
                 key={capability.title}
                 delay={index * 0.06}
                 y={12}
-                className="h-full bg-white"
+                className="h-full"
               >
-                <div className="group flex h-full flex-col justify-between gap-8 p-6 transition-colors duration-300 hover:bg-canvas sm:p-7 lg:p-8">
+                <div className="card-surface group flex h-full flex-col justify-between gap-8 rounded-xl border p-6 transition-colors duration-300 hover:bg-card-hover sm:p-7 lg:p-8">
                   <div className="flex items-start">
-                    <span className="flex size-10 items-center justify-center rounded-lg border border-line bg-canvas text-brand transition-colors duration-300 group-hover:border-brand/25 group-hover:bg-white">
+                    <span className="flex size-10 items-center justify-center rounded-lg border border-card-line bg-white text-brand transition-colors duration-300 group-hover:border-brand/25">
                       <Icon className="size-[18px]" aria-hidden="true" />
                     </span>
                   </div>

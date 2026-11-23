@@ -73,7 +73,7 @@ export function WhyChooseUsSection() {
             </Reveal>
 
             <Reveal delay={0.18}>
-              <div className="mt-9 flex items-start gap-4 rounded-xl border border-white/10 bg-white/[0.03] p-5">
+              <div className="mt-9 flex items-start gap-4 rounded-xl border border-white/15 bg-white/[0.05] p-5">
                 <ShieldCheck
                   className="mt-0.5 size-5 shrink-0 text-accent"
                   aria-hidden="true"
