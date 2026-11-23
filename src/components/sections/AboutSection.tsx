@@ -1,4 +1,4 @@
-import { Cloud, Code, Compass, SlidersHorizontal, Target, Workflow } from "lucide-react";
+import { Cloud, Code2, Compass, LifeBuoy, SlidersHorizontal, Target, Workflow } from "lucide-react";
 
 import { Reveal } from "@/components/ui/Reveal";
 import { cn } from "@/lib/utils";
@@ -27,20 +27,26 @@ const propositions = [
 const operatingLayers = [
   {
     title: "Strategy & architecture",
-    description: "Business direction, requirements and system design.",
+    description: "Business requirements, planning and system design.",
     icon: Compass,
     theme: "light" as const,
   },
   {
     title: "Engineering & integration",
-    description: "Design, build and connect the solution with your team.",
-    icon: Code,
+    description: "Custom applications and connected business systems.",
+    icon: Code2,
     theme: "dark" as const,
   },
   {
-    title: "Cloud & operations",
-    description: "Platforms, support and steady improvement.",
+    title: "Cloud & infrastructure",
+    description: "Cloud platforms, infrastructure and migration.",
     icon: Cloud,
+    theme: "light" as const,
+  },
+  {
+    title: "Support & optimisation",
+    description: "Ongoing support, refinement and improvement.",
+    icon: LifeBuoy,
     theme: "light" as const,
   },
 ];
@@ -135,21 +141,21 @@ export function AboutSection() {
             </Reveal>
           </div>
 
-          <div className="lg:col-span-6 xl:col-span-6 xl:col-start-7 xl:h-full">
-            <Reveal delay={0.1} y={24} className="xl:h-full">
-              <div className="relative xl:flex xl:h-full xl:flex-col">
+          <div className="lg:col-span-6 lg:self-center xl:col-span-6 xl:col-start-7">
+            <Reveal delay={0.1} y={24}>
+              <div className="relative">
                 <div
                   className="pointer-events-none absolute -inset-6 rounded-[2rem] bg-brand/[0.05] blur-2xl lg:-inset-10"
                   aria-hidden="true"
                 />
-                <div className="relative overflow-hidden rounded-2xl border border-line bg-white shadow-[0_30px_90px_-50px_rgba(15,23,42,0.45)] xl:flex xl:flex-1 xl:flex-col">
-                  <div className="relative p-6 sm:p-8 xl:flex xl:flex-1 xl:flex-col">
+                <div className="relative overflow-hidden rounded-2xl border border-line bg-white shadow-[0_30px_90px_-50px_rgba(15,23,42,0.45)]">
+                  <div className="relative p-6 sm:p-8">
                     <div
                       className="pointer-events-none absolute inset-0 dot-grid opacity-60 [mask-image:linear-gradient(to_bottom,black,transparent)]"
                       aria-hidden="true"
                     />
 
-                    <div className="relative grid gap-3 sm:gap-4 lg:auto-rows-fr lg:gap-5 xl:auto-rows-auto xl:flex-1 xl:content-center">
+                    <div className="relative grid grid-cols-1 gap-4 sm:grid-cols-2 sm:auto-rows-fr">
                       {operatingLayers.map((layer) => {
                         const Icon = layer.icon;
                         const isDark = layer.theme === "dark";
@@ -157,31 +163,13 @@ export function AboutSection() {
                           <div
                             key={layer.title}
                             className={cn(
-                              "relative flex flex-col justify-center rounded-xl border py-5 transition-transform duration-300 sm:py-6 lg:min-h-[14rem] lg:py-8",
+                              "relative flex flex-col justify-between gap-6 rounded-2xl border p-5 transition-transform duration-300 sm:min-h-[12rem] sm:p-6",
                               isDark
-                                ? "border-deep bg-midnight px-5 text-white shadow-[0_20px_50px_-30px_rgba(11,18,33,0.8)] sm:ml-8 sm:px-7"
-                                : "card-surface px-5 shadow-[0_18px_40px_-32px_rgba(15,23,42,0.35)] hover:-translate-y-0.5 sm:px-7",
+                                ? "border-deep bg-midnight text-white shadow-[0_20px_50px_-30px_rgba(11,18,33,0.8)]"
+                                : "card-surface hover:-translate-y-0.5",
                             )}
                           >
-                            <div className="flex items-start justify-between gap-6">
-                              <div>
-                                <h3
-                                  className={cn(
-                                    "font-display text-lg font-semibold tracking-[-0.02em]",
-                                    isDark ? "text-white" : "text-ink",
-                                  )}
-                                >
-                                  {layer.title}
-                                </h3>
-                                <p
-                                  className={cn(
-                                    "mt-2 max-w-[26rem] text-[13px] leading-5",
-                                    isDark ? "text-white/55" : "text-muted",
-                                  )}
-                                >
-                                  {layer.description}
-                                </p>
-                              </div>
+                            <div className="flex justify-end">
                               <span
                                 className={cn(
                                   "flex size-9 shrink-0 items-center justify-center rounded-lg border",
@@ -191,8 +179,27 @@ export function AboutSection() {
                                 )}
                                 aria-hidden="true"
                               >
-                                <Icon className="size-4" />
+                                <Icon className="size-[18px]" />
                               </span>
+                            </div>
+
+                            <div>
+                              <h3
+                                className={cn(
+                                  "font-display text-[17px] font-semibold leading-snug tracking-[-0.02em]",
+                                  isDark ? "text-white" : "text-ink",
+                                )}
+                              >
+                                {layer.title}
+                              </h3>
+                              <p
+                                className={cn(
+                                  "mt-2 text-[13px] leading-5",
+                                  isDark ? "text-white/55" : "text-muted",
+                                )}
+                              >
+                                {layer.description}
+                              </p>
                             </div>
                           </div>
                         );
