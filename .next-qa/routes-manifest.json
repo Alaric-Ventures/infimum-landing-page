@@ -1,0 +1,190 @@
+{
+  "version": 3,
+  "pages404": true,
+  "appType": "app",
+  "caseSensitive": false,
+  "basePath": "",
+  "redirects": [
+    {
+      "source": "/:path+/",
+      "destination": "/:path+",
+      "internal": true,
+      "priority": true,
+      "statusCode": 308,
+      "regex": "^(?:/((?:[^/]+?)(?:/(?:[^/]+?))*))/$"
+    },
+    {
+      "source": "/index.html",
+      "destination": "/",
+      "statusCode": 308,
+      "regex": "^(?!/_next)/index\\.html(?:/)?$"
+    },
+    {
+      "source": "/about.html",
+      "destination": "/#about",
+      "statusCode": 308,
+      "regex": "^(?!/_next)/about\\.html(?:/)?$"
+    },
+    {
+      "source": "/services.html",
+      "destination": "/#services",
+      "statusCode": 308,
+      "regex": "^(?!/_next)/services\\.html(?:/)?$"
+    },
+    {
+      "source": "/whyus.html",
+      "destination": "/#why-us",
+      "statusCode": 308,
+      "regex": "^(?!/_next)/whyus\\.html(?:/)?$"
+    },
+    {
+      "source": "/contact.html",
+      "destination": "/#contact",
+      "statusCode": 308,
+      "regex": "^(?!/_next)/contact\\.html(?:/)?$"
+    },
+    {
+      "source": "/content-mang.html",
+      "destination": "/#service-content-management",
+      "statusCode": 308,
+      "regex": "^(?!/_next)/content-mang\\.html(?:/)?$"
+    },
+    {
+      "source": "/mobile-app.html",
+      "destination": "/#service-mobile-application-development",
+      "statusCode": 308,
+      "regex": "^(?!/_next)/mobile-app\\.html(?:/)?$"
+    },
+    {
+      "source": "/app-development.html",
+      "destination": "/#service-application-development",
+      "statusCode": 308,
+      "regex": "^(?!/_next)/app-development\\.html(?:/)?$"
+    },
+    {
+      "source": "/web-development.html",
+      "destination": "/#service-website-design-development",
+      "statusCode": 308,
+      "regex": "^(?!/_next)/web-development\\.html(?:/)?$"
+    },
+    {
+      "source": "/infrastructure.html",
+      "destination": "/#service-infrastructure-cloud",
+      "statusCode": 308,
+      "regex": "^(?!/_next)/infrastructure\\.html(?:/)?$"
+    },
+    {
+      "source": "/office365.html",
+      "destination": "/#service-microsoft-365",
+      "statusCode": 308,
+      "regex": "^(?!/_next)/office365\\.html(?:/)?$"
+    }
+  ],
+  "headers": [
+    {
+      "source": "/:path*",
+      "headers": [
+        {
+          "key": "X-Content-Type-Options",
+          "value": "nosniff"
+        },
+        {
+          "key": "X-Frame-Options",
+          "value": "DENY"
+        },
+        {
+          "key": "Referrer-Policy",
+          "value": "strict-origin-when-cross-origin"
+        },
+        {
+          "key": "Permissions-Policy",
+          "value": "camera=(), microphone=(), geolocation=(), browsing-topics=()"
+        },
+        {
+          "key": "X-DNS-Prefetch-Control",
+          "value": "on"
+        },
+        {
+          "key": "Strict-Transport-Security",
+          "value": "max-age=63072000; includeSubDomains; preload"
+        }
+      ],
+      "regex": "^(?:/((?:[^/]+?)(?:/(?:[^/]+?))*))?(?:/)?$"
+    }
+  ],
+  "onMatchHeaders": [],
+  "rewrites": {
+    "beforeFiles": [],
+    "afterFiles": [],
+    "fallback": []
+  },
+  "dynamicRoutes": [],
+  "staticRoutes": [
+    {
+      "page": "/",
+      "regex": "^/(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/(?:/)?$"
+    },
+    {
+      "page": "/_global-error",
+      "regex": "^/_global\\-error(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/_global\\-error(?:/)?$"
+    },
+    {
+      "page": "/_not-found",
+      "regex": "^/_not\\-found(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/_not\\-found(?:/)?$"
+    },
+    {
+      "page": "/api/contact",
+      "regex": "^/api/contact(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/api/contact(?:/)?$"
+    },
+    {
+      "page": "/api/og",
+      "regex": "^/api/og(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/api/og(?:/)?$"
+    },
+    {
+      "page": "/icon.svg",
+      "regex": "^/icon\\.svg(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/icon\\.svg(?:/)?$"
+    },
+    {
+      "page": "/robots.txt",
+      "regex": "^/robots\\.txt(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/robots\\.txt(?:/)?$"
+    },
+    {
+      "page": "/sitemap.xml",
+      "regex": "^/sitemap\\.xml(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/sitemap\\.xml(?:/)?$"
+    }
+  ],
+  "dataRoutes": [],
+  "rsc": {
+    "header": "rsc",
+    "varyHeader": "rsc, next-router-state-tree, next-router-prefetch, next-router-segment-prefetch",
+    "prefetchHeader": "next-router-prefetch",
+    "didPostponeHeader": "x-nextjs-postponed",
+    "contentTypeHeader": "text/x-component",
+    "suffix": ".rsc",
+    "prefetchSegmentHeader": "next-router-segment-prefetch",
+    "prefetchSegmentSuffix": ".segment.rsc",
+    "prefetchSegmentDirSuffix": ".segments",
+    "clientParamParsing": false,
+    "dynamicRSCPrerender": false
+  },
+  "rewriteHeaders": {
+    "pathHeader": "x-nextjs-rewritten-path",
+    "queryHeader": "x-nextjs-rewritten-query"
+  }
+}
