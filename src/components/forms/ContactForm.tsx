@@ -238,7 +238,7 @@ export function ContactForm() {
 
         <div className="sm:col-span-2">
           <label htmlFor="company" className={labelClass}>
-            Company name{" "}
+            Company{" "}
             <span className="font-normal text-muted">Optional</span>
           </label>
           <input
@@ -257,7 +257,7 @@ export function ContactForm() {
 
         <div className="sm:col-span-2">
           <label htmlFor="service" className={labelClass}>
-            Service interested in
+            Service
           </label>
           <div className="relative">
             <select

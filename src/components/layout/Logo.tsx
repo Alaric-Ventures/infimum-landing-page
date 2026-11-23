@@ -20,6 +20,7 @@ export function Logo({
       width={326}
       height={56}
       priority={priority}
+      fetchPriority={priority ? "high" : "auto"}
       className={cn("h-6 w-auto sm:h-7", className)}
     />
   );

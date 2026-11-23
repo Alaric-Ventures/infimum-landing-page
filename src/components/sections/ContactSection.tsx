@@ -68,7 +68,7 @@ export function ContactSection() {
                       </span>
                       <div className="min-w-0">
                         <p className="text-[10px] font-medium uppercase tracking-[0.16em] text-muted">
-                          {phone.region} · {phone.city}
+                          {phone.region}
                         </p>
                         <p className="mt-1 truncate font-display text-[1.0625rem] font-semibold tracking-[-0.01em] text-ink sm:text-lg">
                           {phone.display}
