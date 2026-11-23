@@ -143,12 +143,6 @@ export function AboutSection() {
                   aria-hidden="true"
                 />
                 <div className="relative overflow-hidden rounded-2xl border border-line bg-white shadow-[0_30px_90px_-50px_rgba(15,23,42,0.45)]">
-                  <div className="flex items-center border-b border-line px-6 py-4">
-                    <span className="font-mono text-[10px] uppercase tracking-[0.2em] text-muted">
-                      Connected delivery model
-                    </span>
-                  </div>
-
                   <div className="relative p-6 sm:p-8">
                     <div
                       className="pointer-events-none absolute inset-0 dot-grid opacity-60 [mask-image:linear-gradient(to_bottom,black,transparent)]"
@@ -205,15 +199,6 @@ export function AboutSection() {
                       })}
                     </div>
 
-                    <div className="relative mt-6 flex items-center gap-3 border-t border-line pt-5">
-                      <span
-                        className="size-1.5 rounded-full bg-accent"
-                        aria-hidden="true"
-                      />
-                      <p className="text-[10px] font-medium uppercase tracking-[0.18em] text-muted">
-                        One connected model, from strategy to support
-                      </p>
-                    </div>
                   </div>
                 </div>
               </div>
