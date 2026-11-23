@@ -9,7 +9,7 @@ A premium single-page website for Infimum Consulting, built with the Next.js App
 - Motion for React (reveals and the infinite gallery)
 - Radix Dialog (mobile navigation)
 - Zod (shared contact validation)
-- Resend REST API (contact delivery)
+- Microsoft Graph API (contact delivery)
 - `next/font` with local font files
 
 ## Run locally
@@ -54,16 +54,18 @@ The gallery now uses four client-supplied images from `public/branding/` only. S
 
 ## Contact email
 
-The form is wired to `src/app/api/contact/route.ts` and Resend. Copy `.env.example` to `.env.local` and set:
+The form is wired to `src/app/api/contact/route.ts` and Microsoft Graph. Copy `.env.example` to `.env.local` and set:
 
 ```bash
 NEXT_PUBLIC_SITE_URL=https://your-production-domain.example
-RESEND_API_KEY=...
+MICROSOFT_TENANT_ID=...
+MICROSOFT_CLIENT_ID=...
+MICROSOFT_CLIENT_SECRET=...
+MICROSOFT_SENDER_EMAIL=...
 CONTACT_TO_EMAIL=...
-CONTACT_FROM_EMAIL=...
 ```
 
-Without the three Resend values, the endpoint returns `503` with `NOT_CONFIGURED`; the UI reports that the form is not connected and offers the Australian phone number. It never displays a fake success. The in-memory rate limit is a single-instance safeguard; a shared store is needed for a multi-instance deployment.
+Without the Microsoft Graph values, the endpoint returns `503` with `NOT_CONFIGURED`; the UI reports that the form is not connected and offers the Australian phone number. It never displays a fake success. The in-memory rate limit is a single-instance safeguard; a shared store is needed for a multi-instance deployment.
 
 ## QA
 
@@ -81,7 +83,7 @@ Screenshots and the machine-readable report are written to `_screenshots/` (giti
 
 ## Before launch
 
-- Configure Resend and verify the sending domain.
+- Configure the Microsoft Entra app registration, grant admin consent for Mail.Send, and restrict it to the sending mailbox.
 - Confirm the canonical production domain in `NEXT_PUBLIC_SITE_URL`.
 - Confirm the phone numbers and any legal/consent requirements; privacy policy URL is still a launch dependency.
 - Replace the raster logo with a vector version if available.

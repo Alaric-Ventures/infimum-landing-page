@@ -1,25 +1,12 @@
 import { getServiceLabel } from "@/data/services";
 import type { ContactFormValues } from "@/lib/validations";
 import { siteConfig } from "@/data/site-config";
-
-type EmailConfig = {
-  apiKey: string;
-  to: string;
-  from: string;
-};
-
-function getEmailConfig(): EmailConfig | null {
-  const apiKey = process.env.RESEND_API_KEY?.trim();
-  const to = process.env.CONTACT_TO_EMAIL?.trim();
-  const from = process.env.CONTACT_FROM_EMAIL?.trim();
-
-  if (!apiKey || !to || !from) return null;
-  return { apiKey, to, from };
-}
-
-export function isContactEmailConfigured(): boolean {
-  return getEmailConfig() !== null;
-}
+import {
+  clearMicrosoftGraphTokenCache,
+  getMicrosoftGraphAccessToken,
+  getMicrosoftGraphConfig,
+  ContactEmailError,
+} from "@/lib/microsoft-graph";
 
 function escapeHtml(value: string): string {
   return value
@@ -30,22 +17,28 @@ function escapeHtml(value: string): string {
     .replaceAll("'", "&#39;");
 }
 
+export function isContactEmailConfigured(): boolean {
+  return getMicrosoftGraphConfig() !== null;
+}
+
 export async function sendContactEmail(
   values: ContactFormValues,
 ): Promise<"sent" | "not-configured"> {
-  const config = getEmailConfig();
+  const config = getMicrosoftGraphConfig();
   if (!config) return "not-configured";
 
   const serviceLabel = getServiceLabel(values.service);
   const company = values.company?.trim() || "Not provided";
   const subjectName = values.fullName.replace(/[\r\n]+/g, " ").slice(0, 80);
-  const submittedAt = new Intl.DateTimeFormat("en-AU", {
+  const submittedAt = new Intl.DateTimeFormat("en-IN", {
     dateStyle: "medium",
     timeStyle: "short",
-    timeZone: "Australia/Sydney",
-    timeZoneName: "short",
+    timeZone: "Asia/Kolkata",
   }).format(new Date());
 
+  // Plain-text representation retained for accessibility/records. Microsoft Graph
+  // sendMail accepts a single body, so HTML is used for delivery.
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const text = [
     `New project enquiry — ${siteConfig.name}`,
     "",
@@ -80,34 +73,133 @@ export async function sendContactEmail(
     </div>
   `;
 
-  let response: Response;
-  try {
-    response = await fetch("https://api.resend.com/emails", {
-      method: "POST",
-      headers: {
-        Authorization: `Bearer ${config.apiKey}`,
-        "Content-Type": "application/json",
+  const subject = `New enquiry — ${serviceLabel} — ${subjectName}`;
+  const sender = config.senderEmail;
+  const graphUrl = `https://graph.microsoft.com/v1.0/users/${encodeURIComponent(
+    sender,
+  )}/sendMail`;
+
+  const payload = {
+    message: {
+      subject,
+      body: {
+        contentType: "HTML",
+        content: html,
       },
-      body: JSON.stringify({
-        from: config.from,
-        to: [config.to],
-        reply_to: values.email,
-        subject: `New enquiry — ${serviceLabel} — ${subjectName}`,
-        text,
-        html,
-      }),
-      signal: AbortSignal.timeout(10_000),
-    });
+      from: {
+        emailAddress: {
+          address: sender,
+          name: siteConfig.name,
+        },
+      },
+      toRecipients: [
+        {
+          emailAddress: {
+            address: config.toEmail,
+          },
+        },
+      ],
+      replyTo: [
+        {
+          emailAddress: {
+            address: values.email,
+            name: values.fullName,
+          },
+        },
+      ],
+    },
+    saveToSentItems: true,
+  };
+
+  // Also provide plain text via an additional... Graph sendMail supports only
+  // one body; include a plain-text alternative in headers? Graph's message
+  // body is single. We keep `text` available for diagnostics only. To preserve
+  // accessibility, append a short plain-text note is not possible. Instead we
+  // rely on HTML email with semantic structure. (Text version retained above
+  // for future use / logging-free reference.)
+
+  const sendOnce = async (token: string): Promise<Response> => {
+    let response: Response;
+    try {
+      response = await fetch(graphUrl, {
+        method: "POST",
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(payload),
+        signal: AbortSignal.timeout(15_000),
+      });
+    } catch (error) {
+      if (error instanceof Error && error.name === "TimeoutError") {
+        throw new ContactEmailError("GRAPH_TIMEOUT", "Microsoft Graph request timed out.");
+      }
+      throw new ContactEmailError(
+        "GRAPH_UNAVAILABLE",
+        "Could not reach Microsoft Graph.",
+      );
+    }
+    return response;
+  };
+
+  let token = await getMicrosoftGraphAccessToken(config);
+  let response = await sendOnce(token);
+
+  // Retry once on 401 after clearing the cached token.
+  if (response.status === 401) {
+    clearMicrosoftGraphTokenCache();
+    token = await getMicrosoftGraphAccessToken(config);
+    response = await sendOnce(token);
+  }
+
+  if (response.status === 202 || response.status === 200 || response.status === 204) {
+    // 202 Accepted means accepted for processing, not final delivery.
+    return "sent";
+  }
+
+  let msErrorCode = "";
+  let retryAfter: number | undefined;
+  try {
+    const data = (await response.json()) as { error?: { code?: string; message?: string } };
+    msErrorCode = typeof data?.error?.code === "string" ? data.error.code : "";
   } catch {
-    console.error("[contact] Email provider request failed (network or timeout).");
-    throw new Error("EMAIL_PROVIDER_UNAVAILABLE");
+    // ignore
+  }
+  const retryAfterHeader = response.headers.get("retry-after");
+  if (retryAfterHeader) {
+    const parsed = Number(retryAfterHeader);
+    if (Number.isFinite(parsed) && parsed > 0) retryAfter = parsed;
   }
 
-  if (!response.ok) {
-    // Do not log the provider response body or the enquiry contents.
-    console.error(`[contact] Email provider returned HTTP ${response.status}.`);
-    throw new Error("EMAIL_PROVIDER_ERROR");
+  // Sanitized server-side diagnostic only.
+  console.error(
+    `[contact] Microsoft Graph sendMail failed (HTTP ${response.status}${msErrorCode ? `, ${msErrorCode}` : ""}).`,
+  );
+
+  if (response.status === 401) {
+    throw new ContactEmailError("AUTH_FAILED", "Microsoft authentication failed.");
+  }
+  if (response.status === 403) {
+    // Could be missing permissions or mailbox access. Treat as permission denied.
+    throw new ContactEmailError(
+      "PERMISSION_DENIED",
+      "Microsoft Graph permission denied.",
+    );
+  }
+  if (response.status === 404) {
+    throw new ContactEmailError("MAILBOX_NOT_FOUND", "Sending mailbox not found.");
+  }
+  if (response.status === 429) {
+    throw new ContactEmailError(
+      "GRAPH_RATE_LIMITED",
+      "Microsoft Graph rate limited.",
+      retryAfter ?? 60,
+    );
+  }
+  if (response.status >= 500) {
+    throw new ContactEmailError("GRAPH_UNAVAILABLE", "Microsoft Graph unavailable.");
   }
 
-  return "sent";
+  throw new ContactEmailError("EMAIL_PROVIDER_ERROR", "Microsoft Graph rejected the request.");
 }
+
