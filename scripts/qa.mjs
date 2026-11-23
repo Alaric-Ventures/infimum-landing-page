@@ -119,6 +119,14 @@ try {
   await page.setViewport({ width: 1440, height: 1000, deviceScaleFactor: 1 });
   await goto("/");
   await page.screenshot({ path: path.join(outDir, "desktop-hero.png") });
+  await page.setViewport({ width: 1280, height: 900, deviceScaleFactor: 1 });
+  await goto("/");
+  await page.screenshot({ path: path.join(outDir, "desktop-1280-hero.png") });
+  await page.setViewport({ width: 1024, height: 900, deviceScaleFactor: 1 });
+  await goto("/");
+  await page.screenshot({ path: path.join(outDir, "desktop-1024-hero.png") });
+  await page.setViewport({ width: 1440, height: 1000, deviceScaleFactor: 1 });
+  await goto("/");
   await page.screenshot({
     path: path.join(outDir, "desktop-full.jpg"),
     fullPage: true,
@@ -136,7 +144,6 @@ try {
   };
 
   await snap("about", "desktop-about");
-  await snap("gallery", "desktop-gallery");
   await snap("services", "desktop-services");
   await snap("why-us", "desktop-why");
   await snap("approach", "desktop-approach");
@@ -153,6 +160,7 @@ try {
   // 3. Tablet and mobile screenshots.
   await page.setViewport({ width: 768, height: 1024, deviceScaleFactor: 1 });
   await goto("/");
+  await page.screenshot({ path: path.join(outDir, "tablet-hero.png") });
   await page.screenshot({
     path: path.join(outDir, "tablet-full.jpg"),
     fullPage: true,
@@ -163,8 +171,17 @@ try {
   await page.setViewport({ width: 390, height: 844, deviceScaleFactor: 1 });
   await goto("/");
   await page.screenshot({ path: path.join(outDir, "mobile-hero.png") });
+  await page.evaluate(() => {
+    const region = document.querySelector(
+      '[role="region"][aria-label="Technology showcase"]',
+    );
+    region?.scrollIntoView({ block: "center" });
+  });
+  await sleep(500);
+  await page.screenshot({
+    path: path.join(outDir, "mobile-hero-carousel.png"),
+  });
   await snap("approach", "mobile-approach");
-  await snap("gallery", "mobile-gallery");
   await page.screenshot({
     path: path.join(outDir, "mobile-full.jpg"),
     fullPage: true,
@@ -172,22 +189,23 @@ try {
     quality: 55,
   });
 
+  await page.setViewport({ width: 375, height: 812, deviceScaleFactor: 1 });
+  await goto("/");
+  await page.screenshot({ path: path.join(outDir, "mobile-375-hero.png") });
+
   await page.setViewport({ width: 320, height: 844, deviceScaleFactor: 1 });
   await goto("/");
   await page.screenshot({ path: path.join(outDir, "mobile-320-hero.png") });
 
-  // 4. Gallery marquee behavior.
-  const gallerySnapshot = async () => {
-    await page.evaluate(() => {
-      const target = document.getElementById("gallery");
-      window.scrollTo(0, (target?.offsetTop ?? 0) - 96);
-    });
+  // 4. Hero carousel behavior.
+  const heroSnapshot = async () => {
+    await page.evaluate(() => window.scrollTo(0, 0));
     await sleep(700);
   };
 
   const readTrackX = () =>
     page.evaluate(() => {
-      const first = document.querySelector('ul[aria-label="Technology showcase"]');
+      const first = document.querySelector('ul[aria-label="Showcase items"]');
       const track = first?.parentElement;
       if (!track) return null;
       const transform = getComputedStyle(track).transform;
@@ -201,13 +219,13 @@ try {
   ]);
   await page.setViewport({ width: 1440, height: 1000, deviceScaleFactor: 1 });
   await goto("/");
-  await gallerySnapshot();
+  await heroSnapshot();
 
   const galleryMetrics = await page.evaluate(() => {
     const region = document.querySelector(
-      '[role="region"][aria-label="Technology in motion image gallery"]',
+      '[role="region"][aria-label="Technology showcase"]',
     );
-    const first = document.querySelector('ul[aria-label="Technology showcase"]');
+    const first = document.querySelector('ul[aria-label="Showcase items"]');
     const second = first?.nextElementSibling;
     const track = first?.parentElement;
     const firstBox = first?.getBoundingClientRect();
@@ -232,7 +250,7 @@ try {
       tabIndex: region?.tabIndex,
       describedBy: region?.getAttribute("aria-describedby"),
       instructions: document
-        .getElementById("gallery-instructions")
+        .getElementById("technology-carousel-instructions")
         ?.textContent?.trim(),
     };
   });
@@ -241,11 +259,11 @@ try {
   await sleep(900);
   const autoEnd = await readTrackX();
   await page.screenshot({
-    path: path.join(outDir, "desktop-gallery-live.png"),
+    path: path.join(outDir, "desktop-hero-carousel-live.png"),
   });
 
   const galleryBox = await page.$eval(
-    '[role="region"][aria-label="Technology in motion image gallery"]',
+    '[role="region"][aria-label="Technology showcase"]',
     (region) => {
       const box = region.getBoundingClientRect();
       return { x: box.x + box.width / 2, y: box.y + box.height / 2 };
@@ -261,7 +279,7 @@ try {
   const resumed = await readTrackX();
 
   await page.focus(
-    '[role="region"][aria-label="Technology in motion image gallery"]',
+    '[role="region"][aria-label="Technology showcase"]',
   );
   await sleep(300);
   const keyStart = await readTrackX();
@@ -271,13 +289,13 @@ try {
 
   await reduceMotion();
   await goto("/");
-  await gallerySnapshot();
+  await heroSnapshot();
   const reducedStart = await readTrackX();
   await sleep(700);
   const reducedEnd = await readTrackX();
 
   report.functional.push({
-    name: "Gallery: seamless duplicate, movement, pause and reduced motion",
+    name: "Hero carousel: seamless duplicate, movement, pause and reduced motion",
     pass:
       galleryMetrics.cardCount === 18 &&
       galleryMetrics.firstAltCount === 9 &&
@@ -287,7 +305,7 @@ try {
       galleryMetrics.trackGap !== null &&
       Math.abs((galleryMetrics.seamGap ?? -1) - (galleryMetrics.trackGap ?? 0)) < 1 &&
       galleryMetrics.tabIndex === 0 &&
-      galleryMetrics.describedBy === "gallery-instructions" &&
+      galleryMetrics.describedBy === "technology-carousel-instructions" &&
       Boolean(galleryMetrics.instructions) &&
       autoStart !== null &&
       autoEnd !== null &&

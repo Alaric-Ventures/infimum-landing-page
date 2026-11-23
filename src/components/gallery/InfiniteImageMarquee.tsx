@@ -20,38 +20,47 @@ import type { GalleryImage } from "@/data/gallery";
 type InfiniteImageMarqueeProps = {
   images: readonly GalleryImage[];
   durationSeconds?: number;
+  label?: string;
+  eagerCount?: number;
 };
 
-const GALLERY_SIZES =
-  "(max-width: 639px) 17.5rem, (max-width: 1023px) 21rem, (max-width: 1279px) 24rem, 26rem";
+const CAROUSEL_SIZES =
+  "(max-width: 639px) 15.5rem, (max-width: 1023px) 17.5rem, (max-width: 1279px) 18.5rem, 19.5rem";
 
 const CARD_GAP_PX = 20;
-const INSTRUCTIONS_ID = "gallery-instructions";
+const INSTRUCTIONS_ID = "technology-carousel-instructions";
 
-function GalleryCard({
+function CarouselCard({
   image,
-  duplicate = false,
+  index,
+  duplicate,
+  eagerCount,
 }: {
   image: GalleryImage;
-  duplicate?: boolean;
+  index: number;
+  duplicate: boolean;
+  eagerCount: number;
 }) {
+  const eager = !duplicate && index < eagerCount;
+
   return (
     <li
       data-gallery-card
-      className="group/card relative aspect-[4/3] w-[17.5rem] shrink-0 overflow-hidden rounded-xl border border-line bg-canvas shadow-[0_20px_60px_-45px_rgba(15,23,42,0.5)] sm:w-[21rem] lg:w-[24rem] xl:w-[26rem]"
+      className="group/card relative aspect-[4/5] w-[15.5rem] shrink-0 overflow-hidden rounded-xl border border-white/10 bg-white/[0.04] shadow-[0_24px_70px_-35px_rgba(0,0,0,0.8)] sm:w-[17.5rem] lg:w-[18.5rem] xl:w-[19.5rem]"
     >
       <Image
         src={image.src}
         alt={duplicate ? "" : image.alt}
         fill
-        sizes={GALLERY_SIZES}
-        quality={80}
-        loading="lazy"
+        sizes={CAROUSEL_SIZES}
+        quality={82}
+        loading={eager ? "eager" : "lazy"}
+        fetchPriority={eager && index === 0 ? "high" : "auto"}
         draggable={false}
         className="object-cover transition-transform duration-700 ease-out group-hover/card:scale-[1.03]"
       />
       <div
-        className="pointer-events-none absolute inset-0 bg-linear-to-t from-midnight/85 via-midnight/15 to-transparent"
+        className="pointer-events-none absolute inset-0 bg-linear-to-t from-midnight/90 via-midnight/15 to-transparent"
         aria-hidden="true"
       />
       <div className="pointer-events-none absolute inset-x-0 bottom-0 flex items-end justify-between gap-4 p-4 sm:p-5">
@@ -70,6 +79,8 @@ function GalleryCard({
 export function InfiniteImageMarquee({
   images,
   durationSeconds = 44,
+  label = "Technology showcase",
+  eagerCount = 0,
 }: InfiniteImageMarqueeProps) {
   const x = useMotionValue(0);
   const regionRef = useRef<HTMLDivElement>(null);
@@ -190,59 +201,86 @@ export function InfiniteImageMarquee({
   }
 
   return (
-    <div
-      ref={regionRef}
-      role="region"
-      aria-label="Technology in motion image gallery"
-      aria-describedby={INSTRUCTIONS_ID}
-      tabIndex={0}
-      onKeyDown={handleKeyDown}
-      onPointerEnter={handlePointerEnter}
-      onPointerLeave={handlePointerLeave}
-      onFocusCapture={() => {
-        focusedRef.current = true;
-      }}
-      onBlurCapture={() => {
-        focusedRef.current = false;
-      }}
-      className="relative focus-visible:outline-2 focus-visible:outline-offset-[-2px] focus-visible:outline-brand"
-    >
-      <div className="overflow-hidden [mask-image:linear-gradient(to_right,transparent,black_4%,black_96%,transparent)]">
-        <motion.div
-          ref={trackRef}
-          style={{ x, touchAction: "pan-y" }}
-          drag="x"
-          dragConstraints={{ left: -loopWidth, right: 0 }}
-          dragElastic={0}
-          dragMomentum={false}
-          onDragStart={() => {
-            draggingRef.current = true;
-          }}
-          onDragEnd={() => {
-            draggingRef.current = false;
-          }}
-          className="flex w-max cursor-grab touch-pan-y select-none gap-4 pl-5 will-change-transform active:cursor-grabbing sm:gap-5 sm:pl-8 lg:pl-16"
-        >
-          <ul
-            ref={firstGroupRef}
-            className="flex shrink-0 gap-4 sm:gap-5"
-            aria-label="Technology showcase"
-          >
-            {images.map((image) => (
-              <GalleryCard key={image.id} image={image} />
-            ))}
-          </ul>
+    <div className="relative">
+      <div
+        className="pointer-events-none absolute -inset-6 rounded-[2.5rem] bg-brand/[0.12] blur-3xl"
+        aria-hidden="true"
+      />
 
-          <ul
-            ref={secondGroupRef}
-            aria-hidden="true"
-            className="flex shrink-0 gap-4 sm:gap-5"
-          >
-            {images.map((image) => (
-              <GalleryCard key={`duplicate-${image.id}`} image={image} duplicate />
-            ))}
-          </ul>
-        </motion.div>
+      <div
+        ref={regionRef}
+        role="region"
+        aria-roledescription="carousel"
+        aria-label={label}
+        aria-describedby={INSTRUCTIONS_ID}
+        tabIndex={0}
+        onKeyDown={handleKeyDown}
+        onPointerEnter={handlePointerEnter}
+        onPointerLeave={handlePointerLeave}
+        onFocusCapture={() => {
+          focusedRef.current = true;
+        }}
+        onBlurCapture={() => {
+          focusedRef.current = false;
+        }}
+        className="relative rounded-2xl focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-accent"
+      >
+        <div className="relative overflow-hidden rounded-2xl border border-white/10 bg-white/[0.03] p-3 shadow-[0_30px_90px_-55px_rgba(0,0,0,0.9)] backdrop-blur-sm sm:p-4">
+          <div className="overflow-hidden rounded-lg [mask-image:linear-gradient(to_right,transparent,black_5%,black_95%,transparent)]">
+            <motion.div
+              ref={trackRef}
+              style={{ x, touchAction: "pan-y" }}
+              drag="x"
+              dragConstraints={{ left: -loopWidth, right: 0 }}
+              dragElastic={0}
+              dragMomentum={false}
+              onDragStart={() => {
+                draggingRef.current = true;
+              }}
+              onDragEnd={() => {
+                draggingRef.current = false;
+              }}
+              className="flex w-max cursor-grab touch-pan-y select-none gap-4 will-change-transform active:cursor-grabbing sm:gap-5"
+            >
+              <ul
+                ref={firstGroupRef}
+                className="flex shrink-0 gap-4 sm:gap-5"
+                aria-label="Showcase items"
+              >
+                {images.map((image, index) => (
+                  <CarouselCard
+                    key={image.id}
+                    image={image}
+                    index={index}
+                    duplicate={false}
+                    eagerCount={eagerCount}
+                  />
+                ))}
+              </ul>
+
+              <ul
+                ref={secondGroupRef}
+                aria-hidden="true"
+                className="flex shrink-0 gap-4 sm:gap-5"
+              >
+                {images.map((image, index) => (
+                  <CarouselCard
+                    key={`duplicate-${image.id}`}
+                    image={image}
+                    index={index}
+                    duplicate
+                    eagerCount={eagerCount}
+                  />
+                ))}
+              </ul>
+            </motion.div>
+          </div>
+        </div>
+
+        <p id={INSTRUCTIONS_ID} className="sr-only">
+          Use the left and right arrow keys to move through the showcase, or
+          drag it with a pointer.
+        </p>
       </div>
     </div>
   );

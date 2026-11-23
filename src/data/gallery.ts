@@ -1,5 +1,5 @@
 /**
- * Placeholder gallery assets for the "Technology in motion" section.
+ * Placeholder assets for the infinite carousel in the hero.
  *
  * Client-supplied images were copied from public/branding into descriptive
  * filenames. The remaining photographs are from Unsplash and used under the
