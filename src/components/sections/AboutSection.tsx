@@ -155,7 +155,7 @@ export function AboutSection() {
                       aria-hidden="true"
                     />
 
-                    <div className="relative grid grid-cols-1 gap-4 sm:grid-cols-2 sm:auto-rows-fr">
+                    <div className="relative grid grid-cols-1 gap-3">
                       {operatingLayers.map((layer) => {
                         const Icon = layer.icon;
                         const isDark = layer.theme === "dark";
@@ -163,27 +163,25 @@ export function AboutSection() {
                           <div
                             key={layer.title}
                             className={cn(
-                              "relative flex flex-col justify-between gap-6 rounded-2xl border p-5 transition-transform duration-300 sm:min-h-[12rem] sm:p-6",
+                              "relative flex items-start gap-4 rounded-xl border p-4 transition-colors duration-300 sm:items-center sm:gap-5 sm:p-5",
                               isDark
                                 ? "border-deep bg-midnight text-white shadow-[0_20px_50px_-30px_rgba(11,18,33,0.8)]"
-                                : "card-surface hover:-translate-y-0.5",
+                                : "card-surface hover:border-brand/25",
                             )}
                           >
-                            <div className="flex justify-end">
-                              <span
-                                className={cn(
-                                  "flex size-9 shrink-0 items-center justify-center rounded-lg border",
-                                  isDark
-                                    ? "border-white/15 bg-white/[0.06] text-accent"
-                                    : "border-card-line bg-white text-brand",
-                                )}
-                                aria-hidden="true"
-                              >
-                                <Icon className="size-[18px]" />
-                              </span>
-                            </div>
+                            <span
+                              className={cn(
+                                "flex size-9 shrink-0 items-center justify-center rounded-lg border",
+                                isDark
+                                  ? "border-white/15 bg-white/[0.06] text-accent"
+                                  : "border-card-line bg-white text-brand",
+                              )}
+                              aria-hidden="true"
+                            >
+                              <Icon className="size-[18px]" />
+                            </span>
 
-                            <div>
+                            <div className="min-w-0">
                               <h3
                                 className={cn(
                                   "font-display text-[17px] font-semibold leading-snug tracking-[-0.02em]",
@@ -194,7 +192,7 @@ export function AboutSection() {
                               </h3>
                               <p
                                 className={cn(
-                                  "mt-2 text-[13px] leading-5",
+                                  "mt-1 text-[13px] leading-5",
                                   isDark ? "text-white/55" : "text-muted",
                                 )}
                               >
