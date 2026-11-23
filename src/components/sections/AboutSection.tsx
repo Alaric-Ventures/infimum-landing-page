@@ -141,21 +141,21 @@ export function AboutSection() {
             </Reveal>
           </div>
 
-          <div className="lg:col-span-6 lg:self-center xl:col-span-6 xl:col-start-7">
-            <Reveal delay={0.1} y={24}>
-              <div className="relative">
+          <div className="lg:col-span-6 xl:col-span-6 xl:col-start-7">
+            <Reveal delay={0.1} y={24} className="h-full">
+              <div className="relative flex h-full flex-col">
                 <div
                   className="pointer-events-none absolute -inset-6 rounded-[2rem] bg-brand/[0.05] blur-2xl lg:-inset-10"
                   aria-hidden="true"
                 />
-                <div className="relative overflow-hidden rounded-2xl border border-line bg-white shadow-[0_30px_90px_-50px_rgba(15,23,42,0.45)]">
-                  <div className="relative p-6 sm:p-8">
+                <div className="relative flex flex-1 flex-col overflow-hidden rounded-2xl border border-line bg-white shadow-[0_30px_90px_-50px_rgba(15,23,42,0.45)]">
+                  <div className="relative flex flex-1 flex-col p-6 sm:p-8">
                     <div
                       className="pointer-events-none absolute inset-0 dot-grid opacity-60 [mask-image:linear-gradient(to_bottom,black,transparent)]"
                       aria-hidden="true"
                     />
 
-                    <div className="relative grid grid-cols-1 gap-3">
+                    <div className="relative flex flex-1 flex-col gap-3">
                       {operatingLayers.map((layer) => {
                         const Icon = layer.icon;
                         const isDark = layer.theme === "dark";
@@ -163,7 +163,7 @@ export function AboutSection() {
                           <div
                             key={layer.title}
                             className={cn(
-                              "relative flex items-start gap-4 rounded-xl border p-4 transition-colors duration-300 sm:items-center sm:gap-5 sm:p-5",
+                              "relative flex flex-1 items-center gap-4 rounded-xl border p-4 transition-colors duration-300 sm:gap-5 sm:p-6",
                               isDark
                                 ? "border-deep bg-midnight text-white shadow-[0_20px_50px_-30px_rgba(11,18,33,0.8)]"
                                 : "card-surface hover:border-brand/25",
