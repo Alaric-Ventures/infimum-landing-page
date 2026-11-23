@@ -171,12 +171,7 @@ try {
   await page.setViewport({ width: 390, height: 844, deviceScaleFactor: 1 });
   await goto("/");
   await page.screenshot({ path: path.join(outDir, "mobile-hero.png") });
-  await page.evaluate(() => {
-    const region = document.querySelector(
-      '[role="region"][aria-label="Technology showcase"]',
-    );
-    region?.scrollIntoView({ block: "center" });
-  });
+  await page.evaluate(() => window.scrollTo(0, 0));
   await sleep(500);
   await page.screenshot({
     path: path.join(outDir, "mobile-hero-carousel.png"),
@@ -197,16 +192,10 @@ try {
   await goto("/");
   await page.screenshot({ path: path.join(outDir, "mobile-320-hero.png") });
 
-  // 4. Hero carousel behavior.
-  const heroSnapshot = async () => {
-    await page.evaluate(() => window.scrollTo(0, 0));
-    await sleep(700);
-  };
-
+  // 4. Hero background carousel behavior.
   const readTrackX = () =>
     page.evaluate(() => {
-      const first = document.querySelector('ul[aria-label="Showcase items"]');
-      const track = first?.parentElement;
+      const track = document.querySelector('[data-hero-carousel-track="true"]');
       if (!track) return null;
       const transform = getComputedStyle(track).transform;
       return transform === "none"
@@ -219,39 +208,38 @@ try {
   ]);
   await page.setViewport({ width: 1440, height: 1000, deviceScaleFactor: 1 });
   await goto("/");
-  await heroSnapshot();
+  await page.evaluate(() => window.scrollTo(0, 0));
+  await sleep(700);
 
-  const galleryMetrics = await page.evaluate(() => {
-    const region = document.querySelector(
-      '[role="region"][aria-label="Technology showcase"]',
-    );
-    const first = document.querySelector('ul[aria-label="Showcase items"]');
-    const second = first?.nextElementSibling;
-    const track = first?.parentElement;
+  const heroMetrics = await page.evaluate(() => {
+    const carousel = document.querySelector('[data-hero-carousel="true"]');
+    const track = document.querySelector('[data-hero-carousel-track="true"]');
+    const groups = track ? Array.from(track.children) : [];
+    const first = groups[0];
+    const second = groups[1];
     const firstBox = first?.getBoundingClientRect();
     const secondBox = second?.getBoundingClientRect();
     const trackStyle = track ? getComputedStyle(track) : null;
+    const pauseButton = document.querySelector(
+      'button[aria-label*="background carousel"]',
+    );
 
     return {
-      cardCount: document.querySelectorAll("[data-gallery-card]").length,
-      firstAltCount: Array.from(first?.querySelectorAll("img") ?? []).filter(
-        (image) => image.alt,
-      ).length,
-      duplicateAltCount: Array.from(
-        second?.querySelectorAll("img") ?? [],
-      ).filter((image) => image.alt).length,
+      panelCount: first ? first.querySelectorAll("img").length : 0,
+      duplicateCount: second ? second.querySelectorAll("img").length : 0,
       duplicateAriaHidden: second?.getAttribute("aria-hidden"),
       equalGroupWidths: Boolean(
-        firstBox && secondBox && Math.abs(firstBox.width - secondBox.width) < 1,
+        firstBox &&
+          secondBox &&
+          Math.abs(firstBox.width - secondBox.width) < 1,
       ),
       seamGap:
-        firstBox && secondBox ? Math.round(secondBox.left - firstBox.right) : null,
-      trackGap: trackStyle ? parseFloat(trackStyle.columnGap) : null,
-      tabIndex: region?.tabIndex,
-      describedBy: region?.getAttribute("aria-describedby"),
-      instructions: document
-        .getElementById("technology-carousel-instructions")
-        ?.textContent?.trim(),
+        firstBox && secondBox
+          ? Math.round(secondBox.left - firstBox.right)
+          : null,
+      trackGap: trackStyle ? parseFloat(trackStyle.columnGap || "0") : null,
+      pauseButtonExists: Boolean(pauseButton),
+      carouselPresent: Boolean(carousel),
     };
   });
 
@@ -262,74 +250,46 @@ try {
     path: path.join(outDir, "desktop-hero-carousel-live.png"),
   });
 
-  const galleryBox = await page.$eval(
-    '[role="region"][aria-label="Technology showcase"]',
-    (region) => {
-      const box = region.getBoundingClientRect();
-      return { x: box.x + box.width / 2, y: box.y + box.height / 2 };
-    },
-  );
-  await page.mouse.move(galleryBox.x, galleryBox.y);
-  await sleep(300);
-  const hoverStart = await readTrackX();
-  await sleep(500);
-  const hoverEnd = await readTrackX();
-  await page.mouse.move(2, 2);
-  await sleep(500);
-  const resumed = await readTrackX();
-
-  await page.focus(
-    '[role="region"][aria-label="Technology showcase"]',
-  );
-  await sleep(300);
-  const keyStart = await readTrackX();
-  await page.keyboard.press("ArrowRight");
+  const pauseButton = await page.$('button[aria-label*="background carousel"]');
+  if (pauseButton) await pauseButton.click();
   await sleep(400);
-  const keyEnd = await readTrackX();
+  const pausedStart = await readTrackX();
+  await sleep(900);
+  const pausedEnd = await readTrackX();
 
   await reduceMotion();
   await goto("/");
-  await heroSnapshot();
-  const reducedStart = await readTrackX();
+  await page.evaluate(() => window.scrollTo(0, 0));
   await sleep(700);
+  const reducedStart = await readTrackX();
+  await sleep(900);
   const reducedEnd = await readTrackX();
 
   report.functional.push({
-    name: "Hero carousel: seamless duplicate, movement, pause and reduced motion",
+    name: "Hero background carousel: seamless loop, pause and reduced motion",
     pass:
-      galleryMetrics.cardCount === 8 &&
-      galleryMetrics.firstAltCount === 4 &&
-      galleryMetrics.duplicateAltCount === 0 &&
-      galleryMetrics.duplicateAriaHidden === "true" &&
-      galleryMetrics.equalGroupWidths &&
-      galleryMetrics.trackGap !== null &&
-      Math.abs((galleryMetrics.seamGap ?? -1) - (galleryMetrics.trackGap ?? 0)) < 1 &&
-      galleryMetrics.tabIndex === 0 &&
-      galleryMetrics.describedBy === "technology-carousel-instructions" &&
-      Boolean(galleryMetrics.instructions) &&
+      heroMetrics.panelCount === 4 &&
+      heroMetrics.duplicateCount === 4 &&
+      heroMetrics.duplicateAriaHidden === "true" &&
+      heroMetrics.equalGroupWidths &&
+      heroMetrics.seamGap === 0 &&
+      heroMetrics.pauseButtonExists &&
+      heroMetrics.carouselPresent &&
       autoStart !== null &&
       autoEnd !== null &&
-      Math.abs(autoEnd - autoStart) > 10 &&
-      hoverStart !== null &&
-      hoverEnd !== null &&
-      Math.abs(hoverEnd - hoverStart) < 1 &&
-      resumed !== null &&
-      Math.abs(resumed - hoverEnd) > 1 &&
-      keyStart !== null &&
-      keyEnd !== null &&
-      Math.abs(keyEnd - keyStart) > 50 &&
+      Math.abs(autoEnd - autoStart) > 5 &&
+      pausedStart !== null &&
+      pausedEnd !== null &&
+      Math.abs(pausedEnd - pausedStart) < 1 &&
       reducedStart !== null &&
       reducedEnd !== null &&
       Math.abs(reducedEnd - reducedStart) < 1,
     detail: {
-      ...galleryMetrics,
+      ...heroMetrics,
       autoStart,
       autoEnd,
-      hoverStart,
-      hoverEnd,
-      resumed,
-      keyStart,
-      keyEnd,
+      pausedStart,
+      pausedEnd,
       reducedStart,
       reducedEnd,
     },

@@ -114,10 +114,12 @@ export function InfiniteImageMarquee({
   return (
     <div
       ref={regionRef}
+      data-hero-carousel="true"
       className="relative h-full w-full overflow-hidden"
     >
       <motion.div
         ref={trackRef}
+        data-hero-carousel-track="true"
         style={{ x, willChange: "transform" }}
         className="flex h-full w-max"
         aria-hidden="true"
