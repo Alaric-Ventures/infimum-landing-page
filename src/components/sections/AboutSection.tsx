@@ -135,21 +135,21 @@ export function AboutSection() {
             </Reveal>
           </div>
 
-          <div className="lg:col-span-6 xl:col-span-6 xl:col-start-7">
-            <Reveal delay={0.1} y={24}>
-              <div className="relative">
+          <div className="lg:col-span-6 xl:col-span-6 xl:col-start-7 xl:h-full">
+            <Reveal delay={0.1} y={24} className="xl:h-full">
+              <div className="relative xl:flex xl:h-full xl:flex-col">
                 <div
                   className="pointer-events-none absolute -inset-6 rounded-[2rem] bg-brand/[0.05] blur-2xl lg:-inset-10"
                   aria-hidden="true"
                 />
-                <div className="relative overflow-hidden rounded-2xl border border-line bg-white shadow-[0_30px_90px_-50px_rgba(15,23,42,0.45)]">
-                  <div className="relative p-6 sm:p-8">
+                <div className="relative overflow-hidden rounded-2xl border border-line bg-white shadow-[0_30px_90px_-50px_rgba(15,23,42,0.45)] xl:flex xl:flex-1 xl:flex-col">
+                  <div className="relative p-6 sm:p-8 xl:flex xl:flex-1 xl:flex-col">
                     <div
                       className="pointer-events-none absolute inset-0 dot-grid opacity-60 [mask-image:linear-gradient(to_bottom,black,transparent)]"
                       aria-hidden="true"
                     />
 
-                    <div className="relative space-y-3">
+                    <div className="relative grid gap-3 sm:gap-4 lg:auto-rows-fr lg:gap-5 xl:auto-rows-auto xl:flex-1 xl:content-center">
                       {operatingLayers.map((layer) => {
                         const Icon = layer.icon;
                         const isDark = layer.theme === "dark";
@@ -157,17 +157,17 @@ export function AboutSection() {
                           <div
                             key={layer.title}
                             className={cn(
-                              "relative rounded-xl border p-5 transition-transform duration-300 sm:p-6",
+                              "relative flex flex-col justify-center rounded-xl border py-5 transition-transform duration-300 sm:py-6 lg:min-h-[14rem] lg:py-8",
                               isDark
-                                ? "border-deep bg-midnight text-white shadow-[0_20px_50px_-30px_rgba(11,18,33,0.8)] sm:ml-8"
-                                : "border-line bg-white/90 backdrop-blur-sm hover:-translate-y-0.5",
+                                ? "border-deep bg-midnight px-5 text-white shadow-[0_20px_50px_-30px_rgba(11,18,33,0.8)] sm:ml-8 sm:px-7"
+                                : "card-surface px-5 shadow-[0_18px_40px_-32px_rgba(15,23,42,0.35)] hover:-translate-y-0.5 sm:px-7",
                             )}
                           >
                             <div className="flex items-start justify-between gap-6">
                               <div>
                                 <h3
                                   className={cn(
-                                    "mt-2 font-display text-lg font-semibold tracking-[-0.02em]",
+                                    "font-display text-lg font-semibold tracking-[-0.02em]",
                                     isDark ? "text-white" : "text-ink",
                                   )}
                                 >
@@ -175,7 +175,7 @@ export function AboutSection() {
                                 </h3>
                                 <p
                                   className={cn(
-                                    "mt-1.5 max-w-[26rem] text-[13px] leading-5",
+                                    "mt-2 max-w-[26rem] text-[13px] leading-5",
                                     isDark ? "text-white/55" : "text-muted",
                                   )}
                                 >
@@ -187,7 +187,7 @@ export function AboutSection() {
                                   "flex size-9 shrink-0 items-center justify-center rounded-lg border",
                                   isDark
                                     ? "border-white/15 bg-white/[0.06] text-accent"
-                                    : "border-line bg-canvas text-brand",
+                                    : "border-card-line bg-white text-brand",
                                 )}
                                 aria-hidden="true"
                               >
@@ -198,7 +198,6 @@ export function AboutSection() {
                         );
                       })}
                     </div>
-
                   </div>
                 </div>
               </div>

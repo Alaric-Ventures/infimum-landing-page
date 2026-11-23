@@ -54,7 +54,7 @@ export function ServicesSection() {
                     "group relative flex h-full scroll-mt-28 flex-col overflow-hidden rounded-xl border p-6 transition-[transform,border-color,box-shadow] duration-300 hover:-translate-y-1 focus-within:border-brand/40 sm:p-7",
                     featured
                       ? "border-deep bg-midnight text-white hover:border-brand/60 hover:shadow-[0_30px_80px_-40px_rgba(11,18,33,0.55)]"
-                      : "border-line bg-white hover:border-brand/30 hover:shadow-[0_24px_60px_-40px_rgba(15,23,42,0.4)]",
+                      : "card-surface hover:border-brand/30 hover:bg-card-hover hover:shadow-[0_24px_60px_-40px_rgba(15,23,42,0.4)]",
                   )}
                 >
                   {featured ? (
@@ -81,7 +81,7 @@ export function ServicesSection() {
                         "flex size-11 items-center justify-center rounded-lg border transition-colors duration-300",
                         featured
                           ? "border-white/15 bg-white/[0.06] text-accent"
-                          : "border-line bg-canvas text-brand group-hover:border-brand/20 group-hover:bg-white",
+                          : "border-card-line bg-white text-brand group-hover:border-brand/20",
                       )}
                     >
                       <ServiceIcon name={service.icon} className="size-5" />
@@ -113,7 +113,7 @@ export function ServicesSection() {
                       "relative mt-6 grid gap-2.5 border-t pt-5 text-[13px] leading-5",
                       featured
                         ? "border-white/10 text-white/60"
-                        : "border-line text-muted",
+                        : "border-card-line text-muted",
                     )}
                     aria-label={`${service.title} capabilities`}
                   >
@@ -148,7 +148,7 @@ export function ServicesSection() {
                           "flex size-7 items-center justify-center rounded-full border transition-transform duration-200 group-hover:translate-x-0.5",
                           featured
                             ? "border-white/15 text-accent"
-                            : "border-line text-brand",
+                            : "border-card-line text-brand",
                         )}
                         aria-hidden="true"
                       >

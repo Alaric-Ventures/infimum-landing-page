@@ -60,10 +60,10 @@ export function ContactSection() {
                   <a
                     key={phone.region}
                     href={`tel:${phone.href}`}
-                    className="group flex items-center justify-between gap-4 rounded-xl border border-line bg-white p-4 transition-colors duration-200 hover:border-brand/30 hover:bg-canvas sm:p-5"
+                    className="card-surface group flex items-center justify-between gap-4 rounded-xl border p-4 transition-colors duration-200 hover:border-brand/30 hover:bg-card-hover sm:p-5"
                   >
                     <div className="flex min-w-0 items-center gap-4">
-                      <span className="flex size-11 shrink-0 items-center justify-center rounded-full bg-canvas text-brand transition-colors duration-200 group-hover:bg-white">
+                      <span className="flex size-11 shrink-0 items-center justify-center rounded-full border border-card-line bg-white text-brand transition-colors duration-200 group-hover:border-brand/25">
                         <Phone className="size-4" aria-hidden="true" />
                       </span>
                       <div className="min-w-0">
@@ -110,8 +110,8 @@ export function ContactSection() {
           </div>
 
           <Reveal delay={0.12} y={22}>
-            <div className="relative rounded-2xl border border-line bg-white p-5 shadow-[0_30px_90px_-60px_rgba(15,23,42,0.5)] sm:p-8 lg:p-10">
-              <div className="border-b border-line pb-6">
+            <div className="card-surface relative rounded-2xl border p-5 shadow-[0_2px_4px_rgba(15,23,42,0.03),0_30px_80px_-56px_rgba(15,23,42,0.45)] sm:p-8 lg:p-10">
+              <div className="border-b border-card-line pb-6">
                 <div>
                   <h3 className="text-h3 text-ink">Project enquiry</h3>
                   <p className="mt-1.5 text-sm text-muted">

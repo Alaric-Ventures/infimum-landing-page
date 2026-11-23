@@ -16,6 +16,11 @@
   --color-brand-dark: #1d4ed8;
   --color-accent: #06b6d4;
 
+  /* Card surfaces: barely-tinted panels on white sections. */
+  --color-card-soft: #f7faff;
+  --color-card-hover: #eff5ff;
+  --color-card-line: #dce5f1;
+
   --ease-out-expo: cubic-bezier(0.22, 1, 0.36, 1);
 }
 
@@ -159,6 +164,12 @@
       transparent 1px
     );
     background-size: 22px 22px;
+  }
+
+  /* Shared surface for standard (non-featured) cards on white sections. */
+  .card-surface {
+    background-color: var(--color-card-soft);
+    border-color: var(--color-card-line);
   }
 
   .hatch {
