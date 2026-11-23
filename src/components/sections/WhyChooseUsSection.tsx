@@ -1,4 +1,4 @@
-import { ArrowUpRight, Code, Compass, Gauge, Layers, ShieldCheck } from "lucide-react";
+import { ArrowUpRight, Network, ShieldCheck, SlidersHorizontal, Target, Wrench } from "lucide-react";
 
 import { Reveal } from "@/components/ui/Reveal";
 
@@ -7,25 +7,25 @@ const features = [
     title: "The business defines the brief",
     description:
       "We begin with how your organisation works, where the friction is and what the outcome needs to be — not with a product in search of a problem.",
-    icon: Compass,
+    icon: Target,
   },
   {
     title: "Solutions sized to the need",
     description:
       "We scope for the value at stake, with engagement options that respect your budget rather than inflating the programme.",
-    icon: Gauge,
+    icon: SlidersHorizontal,
   },
   {
     title: "Engineering you can maintain",
     description:
       "Clean architecture, sensible integrations and documentation that leave your team with a system it can actually operate.",
-    icon: Code,
+    icon: Wrench,
   },
   {
     title: "One partner across the stack",
     description:
       "Web, mobile, applications, cloud and Microsoft 365 brought together as a coherent service — not disconnected projects.",
-    icon: Layers,
+    icon: Network,
   },
 ];
 
@@ -103,7 +103,7 @@ export function WhyChooseUsSection() {
           <div className="lg:col-span-6 lg:col-start-7">
             <Reveal delay={0.1}>
               <div className="border-t border-white/10">
-                {features.map((feature, index) => {
+                {features.map((feature) => {
                   const Icon = feature.icon;
                   return (
                     <div
@@ -115,14 +115,9 @@ export function WhyChooseUsSection() {
                           <Icon className="size-[18px]" aria-hidden="true" />
                         </span>
                         <div className="min-w-0">
-                          <div className="flex items-baseline gap-3">
-                            <span className="font-mono text-[10px] tracking-[0.16em] text-white/55">
-                              {String(index + 1).padStart(2, "0")}
-                            </span>
-                            <h3 className="text-lg font-medium tracking-[-0.015em] text-white">
-                              {feature.title}
-                            </h3>
-                          </div>
+                          <h3 className="text-lg font-medium tracking-[-0.015em] text-white">
+                            {feature.title}
+                          </h3>
                           <p className="mt-2 max-w-lg text-sm leading-6 text-white/50">
                             {feature.description}
                           </p>

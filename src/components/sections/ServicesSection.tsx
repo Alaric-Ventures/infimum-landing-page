@@ -40,7 +40,6 @@ export function ServicesSection() {
         <div className="mt-14 grid gap-4 md:grid-cols-2 lg:grid-cols-3 lg:gap-5">
           {services.map((service, index) => {
             const featured = service.featured === true;
-            const serviceNumber = String(index + 1).padStart(2, "0");
 
             return (
               <Reveal
@@ -76,7 +75,7 @@ export function ServicesSection() {
                     />
                   )}
 
-                  <div className="relative flex items-start justify-between">
+                  <div className="relative flex items-start">
                     <span
                       className={cn(
                         "flex size-11 items-center justify-center rounded-lg border transition-colors duration-300",
@@ -86,14 +85,6 @@ export function ServicesSection() {
                       )}
                     >
                       <ServiceIcon name={service.icon} className="size-5" />
-                    </span>
-                    <span
-                      className={cn(
-                        "font-mono text-[10px] tracking-[0.16em]",
-                        featured ? "text-white/60" : "text-muted",
-                      )}
-                    >
-                      {serviceNumber} / 06
                     </span>
                   </div>
 
@@ -106,16 +97,7 @@ export function ServicesSection() {
                     >
                       {service.title}
                     </h3>
-                    {service.legacyName ? (
-                      <p
-                        className={cn(
-                          "mt-1.5 text-[10px] font-medium uppercase tracking-[0.14em]",
-                          featured ? "text-white/60" : "text-muted",
-                        )}
-                      >
-                        {service.legacyName}
-                      </p>
-                    ) : null}
+
                     <p
                       className={cn(
                         "mt-3 text-sm leading-6",
