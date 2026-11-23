@@ -1,4 +1,4 @@
-import { Cloud, Code, Compass } from "lucide-react";
+import { Cloud, Code, Compass, SlidersHorizontal, Target, Workflow } from "lucide-react";
 
 import { Reveal } from "@/components/ui/Reveal";
 import { cn } from "@/lib/utils";
@@ -8,36 +8,36 @@ const propositions = [
     title: "Business-led decisions",
     description:
       "Technology choices are tested against operational goals and commercial reality.",
+    icon: Target,
   },
   {
     title: "End-to-end delivery",
     description:
       "From early planning through build, launch and ongoing support.",
+    icon: Workflow,
   },
   {
     title: "Engagement that fits",
     description:
       "Support and delivery options shaped around each client’s needs and budget.",
+    icon: SlidersHorizontal,
   },
 ];
 
 const operatingLayers = [
   {
-    number: "01",
     title: "Strategy & architecture",
     description: "Business direction, requirements and system design.",
     icon: Compass,
     theme: "light" as const,
   },
   {
-    number: "02",
     title: "Engineering & integration",
     description: "Design, build and connect the solution with your team.",
     icon: Code,
     theme: "dark" as const,
   },
   {
-    number: "03",
     title: "Cloud & operations",
     description: "Platforms, support and steady improvement.",
     icon: Cloud,
@@ -98,13 +98,15 @@ export function AboutSection() {
 
             <Reveal delay={0.2}>
               <ul className="mt-10 border-t border-line">
-                {propositions.map((item, index) => (
+                {propositions.map((item) => {
+                  const Icon = item.icon;
+                  return (
                   <li
                     key={item.title}
                     className="grid gap-2 border-b border-line py-5 sm:grid-cols-[auto_1fr] sm:gap-6"
                   >
-                    <span className="font-mono text-[10px] tracking-[0.16em] text-brand sm:pt-1">
-                      {String(index + 1).padStart(2, "0")}
+                    <span className="flex size-8 items-center justify-center rounded-lg border border-line bg-canvas text-brand sm:mt-1">
+                      <Icon className="size-[16px]" aria-hidden="true" />
                     </span>
                     <div>
                       <h3 className="text-[15px] font-semibold text-ink">
@@ -115,7 +117,8 @@ export function AboutSection() {
                       </p>
                     </div>
                   </li>
-                ))}
+                );
+                })}
               </ul>
             </Reveal>
 
@@ -140,12 +143,9 @@ export function AboutSection() {
                   aria-hidden="true"
                 />
                 <div className="relative overflow-hidden rounded-2xl border border-line bg-white shadow-[0_30px_90px_-50px_rgba(15,23,42,0.45)]">
-                  <div className="flex items-center justify-between border-b border-line px-6 py-4">
+                  <div className="flex items-center border-b border-line px-6 py-4">
                     <span className="font-mono text-[10px] uppercase tracking-[0.2em] text-muted">
                       Connected delivery model
-                    </span>
-                    <span className="font-mono text-[10px] tracking-[0.16em] text-muted">
-                      INF / 01
                     </span>
                   </div>
 
@@ -161,7 +161,7 @@ export function AboutSection() {
                         const isDark = layer.theme === "dark";
                         return (
                           <div
-                            key={layer.number}
+                            key={layer.title}
                             className={cn(
                               "relative rounded-xl border p-5 transition-transform duration-300 sm:p-6",
                               isDark
@@ -171,14 +171,6 @@ export function AboutSection() {
                           >
                             <div className="flex items-start justify-between gap-6">
                               <div>
-                                <span
-                                  className={cn(
-                                    "font-mono text-[10px] tracking-[0.16em]",
-                                    isDark ? "text-accent" : "text-brand",
-                                  )}
-                                >
-                                  {layer.number}
-                                </span>
                                 <h3
                                   className={cn(
                                     "mt-2 font-display text-lg font-semibold tracking-[-0.02em]",

@@ -1,33 +1,35 @@
+import { Code2, Compass, RefreshCw, Search } from "lucide-react";
+
 import { Reveal } from "@/components/ui/Reveal";
 
 const steps = [
   {
-    number: "01",
     title: "Discover",
     description:
       "We listen, examine the current state and agree what the solution needs to achieve — for the business and the people using it.",
     detail: "Context · Requirements",
+    icon: Search,
   },
   {
-    number: "02",
     title: "Strategize",
     description:
       "We identify the right technology, scope and sequence, with the trade-offs and risks made clear before delivery begins.",
     detail: "Options · Direction",
+    icon: Compass,
   },
   {
-    number: "03",
     title: "Build",
     description:
       "Design and engineering move forward in focused increments, with progress visible and decisions documented along the way.",
     detail: "Design · Engineering",
+    icon: Code2,
   },
   {
-    number: "04",
     title: "Evolve",
     description:
       "We support launch, refine what matters and adapt the solution as your business needs change.",
     detail: "Support · Improvement",
+    icon: RefreshCw,
   },
 ];
 
@@ -68,16 +70,18 @@ export function ProcessSection() {
             aria-hidden="true"
           />
           <ol className="grid gap-10 lg:grid-cols-4 lg:gap-6">
-            {steps.map((step, index) => (
-              <li key={step.number} className="relative pl-16 lg:pl-0">
+            {steps.map((step, index) => {
+              const Icon = step.icon;
+              return (
+              <li key={step.title} className="relative pl-16 lg:pl-0">
                 {index < steps.length - 1 ? (
                   <span
                     className="absolute left-11 right-[-1.5rem] top-[21px] hidden h-px bg-line lg:block"
                     aria-hidden="true"
                   />
                 ) : null}
-                <span className="absolute left-0 top-0 z-10 flex size-11 items-center justify-center rounded-full border border-line bg-canvas font-mono text-[11px] font-medium tracking-[0.08em] text-brand lg:static lg:mb-6">
-                  {step.number}
+                <span className="absolute left-0 top-0 z-10 flex size-11 items-center justify-center rounded-full border border-line bg-canvas text-brand lg:static lg:mb-6" aria-hidden="true">
+                  <Icon className="size-[18px]" />
                 </span>
                 <Reveal delay={index * 0.06} y={16}>
                   <div className="pt-1.5 lg:pt-0">
@@ -93,14 +97,11 @@ export function ProcessSection() {
                   </div>
                 </Reveal>
               </li>
-            ))}
+              );
+            })}
           </ol>
         </div>
 
-        <p className="mt-12 max-w-2xl border-t border-line pt-6 text-xs leading-5 text-muted">
-          This is a proposed consulting workflow. The shape and sequence of each
-          engagement is agreed with you.
-        </p>
       </div>
     </section>
   );
