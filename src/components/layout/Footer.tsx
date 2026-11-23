@@ -85,7 +85,7 @@ export function Footer() {
                     </span>
                     <span>
                       <span className="block text-[10px] uppercase tracking-[0.16em] text-white/55">
-                        {phone.region} · {phone.city}
+                        {phone.region}
                       </span>
                       <span className="mt-1 block text-sm text-white/70 transition-colors group-hover:text-white">
                         {phone.display}

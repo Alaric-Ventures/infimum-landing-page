@@ -1,4 +1,4 @@
-import { Compass, Layers, RefreshCw } from "lucide-react";
+import { Cloud, Code, Compass, SlidersHorizontal, Target, Workflow } from "lucide-react";
 
 import { Reveal } from "@/components/ui/Reveal";
 import { cn } from "@/lib/utils";
@@ -8,39 +8,39 @@ const propositions = [
     title: "Business-led decisions",
     description:
       "Technology choices are tested against operational goals and commercial reality.",
+    icon: Target,
   },
   {
     title: "End-to-end delivery",
     description:
       "From early planning through build, launch and ongoing support.",
+    icon: Workflow,
   },
   {
     title: "Engagement that fits",
     description:
       "Support and delivery options shaped around each client’s needs and budget.",
+    icon: SlidersHorizontal,
   },
 ];
 
 const operatingLayers = [
   {
-    number: "01",
-    title: "Direction",
-    description: "Strategy, requirements and the right technology choices.",
+    title: "Strategy & architecture",
+    description: "Business direction, requirements and system design.",
     icon: Compass,
     theme: "light" as const,
   },
   {
-    number: "02",
-    title: "Delivery",
-    description: "Design, engineering and integration — built with your team.",
-    icon: Layers,
+    title: "Engineering & integration",
+    description: "Design, build and connect the solution with your team.",
+    icon: Code,
     theme: "dark" as const,
   },
   {
-    number: "03",
-    title: "Continuity",
-    description: "Cloud operations, support and steady improvement.",
-    icon: RefreshCw,
+    title: "Cloud & operations",
+    description: "Platforms, support and steady improvement.",
+    icon: Cloud,
     theme: "light" as const,
   },
 ];
@@ -60,7 +60,7 @@ export function AboutSection() {
         <div className="grid gap-16 lg:grid-cols-12 lg:gap-12 xl:gap-20">
           <div className="lg:col-span-6">
             <Reveal>
-              <p className="eyebrow text-brand">About Infimum Consulting</p>
+              <p className="eyebrow text-brand-dark">About Infimum Consulting</p>
             </Reveal>
 
             <Reveal delay={0.06}>
@@ -72,10 +72,10 @@ export function AboutSection() {
             <Reveal delay={0.12}>
               <div className="mt-7 max-w-xl space-y-5 text-[1.0625rem] leading-7 text-muted">
                 <p>
-                  Infimum Consulting is an IT consultancy and managed services
-                  partner. We work with organisations to plan, design and deliver
-                  technology across custom applications, digital experiences,
-                  cloud infrastructure and Microsoft 365.
+                  Infimum Consulting is an IT consultancy. We work with
+                  organisations to plan, design and deliver technology across
+                  custom applications, digital experiences, cloud infrastructure
+                  and Microsoft 365.
                 </p>
                 <p>
                   Our starting point is the business need: how work gets done,
@@ -98,13 +98,15 @@ export function AboutSection() {
 
             <Reveal delay={0.2}>
               <ul className="mt-10 border-t border-line">
-                {propositions.map((item, index) => (
+                {propositions.map((item) => {
+                  const Icon = item.icon;
+                  return (
                   <li
                     key={item.title}
                     className="grid gap-2 border-b border-line py-5 sm:grid-cols-[auto_1fr] sm:gap-6"
                   >
-                    <span className="font-mono text-[10px] tracking-[0.16em] text-brand/70 sm:pt-1">
-                      {String(index + 1).padStart(2, "0")}
+                    <span className="flex size-8 items-center justify-center rounded-lg border border-line bg-canvas text-brand sm:mt-1">
+                      <Icon className="size-[16px]" aria-hidden="true" />
                     </span>
                     <div>
                       <h3 className="text-[15px] font-semibold text-ink">
@@ -115,7 +117,8 @@ export function AboutSection() {
                       </p>
                     </div>
                   </li>
-                ))}
+                );
+                })}
               </ul>
             </Reveal>
 
@@ -140,15 +143,6 @@ export function AboutSection() {
                   aria-hidden="true"
                 />
                 <div className="relative overflow-hidden rounded-2xl border border-line bg-white shadow-[0_30px_90px_-50px_rgba(15,23,42,0.45)]">
-                  <div className="flex items-center justify-between border-b border-line px-6 py-4">
-                    <span className="font-mono text-[10px] uppercase tracking-[0.2em] text-muted">
-                      Operating model
-                    </span>
-                    <span className="font-mono text-[10px] tracking-[0.16em] text-muted/60">
-                      INF / 01
-                    </span>
-                  </div>
-
                   <div className="relative p-6 sm:p-8">
                     <div
                       className="pointer-events-none absolute inset-0 dot-grid opacity-60 [mask-image:linear-gradient(to_bottom,black,transparent)]"
@@ -161,7 +155,7 @@ export function AboutSection() {
                         const isDark = layer.theme === "dark";
                         return (
                           <div
-                            key={layer.number}
+                            key={layer.title}
                             className={cn(
                               "relative rounded-xl border p-5 transition-transform duration-300 sm:p-6",
                               isDark
@@ -171,14 +165,6 @@ export function AboutSection() {
                           >
                             <div className="flex items-start justify-between gap-6">
                               <div>
-                                <span
-                                  className={cn(
-                                    "font-mono text-[10px] tracking-[0.16em]",
-                                    isDark ? "text-accent" : "text-brand/70",
-                                  )}
-                                >
-                                  {layer.number}
-                                </span>
                                 <h3
                                   className={cn(
                                     "mt-2 font-display text-lg font-semibold tracking-[-0.02em]",
@@ -213,15 +199,6 @@ export function AboutSection() {
                       })}
                     </div>
 
-                    <div className="relative mt-6 flex items-center gap-3 border-t border-line pt-5">
-                      <span
-                        className="size-1.5 rounded-full bg-accent"
-                        aria-hidden="true"
-                      />
-                      <p className="text-[10px] font-medium uppercase tracking-[0.18em] text-muted">
-                        One team, from direction to support
-                      </p>
-                    </div>
                   </div>
                 </div>
               </div>

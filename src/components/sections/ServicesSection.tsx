@@ -17,7 +17,7 @@ export function ServicesSection() {
         <div className="flex flex-col justify-between gap-8 lg:flex-row lg:items-end">
           <div className="max-w-2xl">
             <Reveal>
-              <p className="eyebrow text-brand">What we do</p>
+              <p className="eyebrow text-brand-dark">What we do</p>
             </Reveal>
             <Reveal delay={0.06}>
               <h2
@@ -40,21 +40,20 @@ export function ServicesSection() {
         <div className="mt-14 grid gap-4 md:grid-cols-2 lg:grid-cols-3 lg:gap-5">
           {services.map((service, index) => {
             const featured = service.featured === true;
-            const serviceNumber = String(index + 1).padStart(2, "0");
 
             return (
               <Reveal
                 key={service.slug}
                 delay={index * 0.04}
                 y={20}
-                className={cn("h-full", featured && "lg:col-span-2")}
+                className="h-full"
               >
                 <article
                   id={`service-${service.slug}`}
                   className={cn(
                     "group relative flex h-full scroll-mt-28 flex-col overflow-hidden rounded-xl border p-6 transition-[transform,border-color,box-shadow] duration-300 hover:-translate-y-1 focus-within:border-brand/40 sm:p-7",
                     featured
-                      ? "border-deep bg-midnight text-white hover:border-brand/60 hover:shadow-[0_30px_80px_-40px_rgba(11,18,33,0.55)] lg:p-8"
+                      ? "border-deep bg-midnight text-white hover:border-brand/60 hover:shadow-[0_30px_80px_-40px_rgba(11,18,33,0.55)]"
                       : "border-line bg-white hover:border-brand/30 hover:shadow-[0_24px_60px_-40px_rgba(15,23,42,0.4)]",
                   )}
                 >
@@ -76,7 +75,7 @@ export function ServicesSection() {
                     />
                   )}
 
-                  <div className="relative flex items-start justify-between">
+                  <div className="relative flex items-start">
                     <span
                       className={cn(
                         "flex size-11 items-center justify-center rounded-lg border transition-colors duration-300",
@@ -87,41 +86,22 @@ export function ServicesSection() {
                     >
                       <ServiceIcon name={service.icon} className="size-5" />
                     </span>
-                    <span
-                      className={cn(
-                        "font-mono text-[10px] tracking-[0.16em]",
-                        featured ? "text-white/30" : "text-muted/50",
-                      )}
-                    >
-                      {serviceNumber} / 06
-                    </span>
                   </div>
 
                   <div className="relative">
                     <h3
                       className={cn(
-                        "mt-6 font-display font-semibold leading-[1.15] tracking-[-0.025em]",
-                        featured
-                          ? "text-[1.55rem] text-white sm:text-[1.75rem]"
-                          : "text-[1.25rem] text-ink",
+                        "mt-6 font-display text-[1.25rem] font-semibold leading-[1.15] tracking-[-0.025em]",
+                        featured ? "text-white" : "text-ink",
                       )}
                     >
                       {service.title}
                     </h3>
-                    {service.legacyName ? (
-                      <p
-                        className={cn(
-                          "mt-1.5 text-[10px] font-medium uppercase tracking-[0.14em]",
-                          featured ? "text-white/35" : "text-muted/60",
-                        )}
-                      >
-                        {service.legacyName}
-                      </p>
-                    ) : null}
+
                     <p
                       className={cn(
                         "mt-3 text-sm leading-6",
-                        featured ? "max-w-2xl text-white/60" : "text-muted",
+                        featured ? "text-white/60" : "text-muted",
                       )}
                     >
                       {service.summary}
@@ -132,7 +112,7 @@ export function ServicesSection() {
                     className={cn(
                       "relative mt-6 grid gap-2.5 border-t pt-5 text-[13px] leading-5",
                       featured
-                        ? "border-white/10 text-white/60 sm:grid-cols-2 sm:gap-x-8"
+                        ? "border-white/10 text-white/60"
                         : "border-line text-muted",
                     )}
                     aria-label={`${service.title} capabilities`}
@@ -154,7 +134,7 @@ export function ServicesSection() {
                   <div className="relative mt-auto flex items-center justify-between gap-4 pt-7">
                     <Link
                       href={`/?service=${service.slug}#contact`}
-                      aria-label={`Discuss ${service.title} with Infimum Consulting`}
+                      aria-label={`Discuss this service: ${service.title}`}
                       className={cn(
                         "inline-flex items-center gap-2 text-[13px] font-semibold transition-colors duration-200",
                         featured

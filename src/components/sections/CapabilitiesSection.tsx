@@ -46,12 +46,9 @@ export function CapabilitiesSection() {
                 className="h-full bg-white"
               >
                 <div className="group flex h-full flex-col justify-between gap-8 p-6 transition-colors duration-300 hover:bg-canvas sm:p-7 lg:p-8">
-                  <div className="flex items-start justify-between">
+                  <div className="flex items-start">
                     <span className="flex size-10 items-center justify-center rounded-lg border border-line bg-canvas text-brand transition-colors duration-300 group-hover:border-brand/25 group-hover:bg-white">
                       <Icon className="size-[18px]" aria-hidden="true" />
-                    </span>
-                    <span className="font-mono text-[10px] tracking-[0.16em] text-muted/60">
-                      {String(index + 1).padStart(2, "0")}
                     </span>
                   </div>
                   <div>

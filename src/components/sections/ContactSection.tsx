@@ -1,5 +1,5 @@
 import { Suspense } from "react";
-import { ArrowUpRight, Phone } from "lucide-react";
+import { ArrowUpRight, Check, Phone } from "lucide-react";
 
 import { ContactForm } from "@/components/forms/ContactForm";
 import { Reveal } from "@/components/ui/Reveal";
@@ -36,7 +36,7 @@ export function ContactSection() {
         <div className="grid gap-14 lg:grid-cols-[0.85fr_1.15fr] lg:gap-16 xl:gap-24">
           <div>
             <Reveal>
-              <p className="eyebrow text-brand">Contact</p>
+              <p className="eyebrow text-brand-dark">Contact</p>
             </Reveal>
             <Reveal delay={0.06}>
               <h2
@@ -68,7 +68,7 @@ export function ContactSection() {
                       </span>
                       <div className="min-w-0">
                         <p className="text-[10px] font-medium uppercase tracking-[0.16em] text-muted">
-                          {phone.region} · {phone.city}
+                          {phone.region}
                         </p>
                         <p className="mt-1 truncate font-display text-[1.0625rem] font-semibold tracking-[-0.01em] text-ink sm:text-lg">
                           {phone.display}
@@ -91,15 +91,17 @@ export function ContactSection() {
                 </p>
                 <ol className="mt-4 space-y-3">
                   <li className="flex items-start gap-3 text-sm leading-6 text-muted">
-                    <span className="mt-1 font-mono text-[10px] text-brand/70">
-                      01
-                    </span>
+                    <Check
+                      className="mt-1 size-4 shrink-0 text-brand"
+                      aria-hidden="true"
+                    />
                     We review your enquiry and the context you’ve shared.
                   </li>
                   <li className="flex items-start gap-3 text-sm leading-6 text-muted">
-                    <span className="mt-1 font-mono text-[10px] text-brand/70">
-                      02
-                    </span>
+                    <Check
+                      className="mt-1 size-4 shrink-0 text-brand"
+                      aria-hidden="true"
+                    />
                     We come back to arrange a short, no-obligation conversation.
                   </li>
                 </ol>
@@ -109,7 +111,7 @@ export function ContactSection() {
 
           <Reveal delay={0.12} y={22}>
             <div className="relative rounded-2xl border border-line bg-white p-5 shadow-[0_30px_90px_-60px_rgba(15,23,42,0.5)] sm:p-8 lg:p-10">
-              <div className="flex items-start justify-between gap-4 border-b border-line pb-6">
+              <div className="border-b border-line pb-6">
                 <div>
                   <h3 className="text-h3 text-ink">Project enquiry</h3>
                   <p className="mt-1.5 text-sm text-muted">
@@ -117,9 +119,6 @@ export function ContactSection() {
                     required.
                   </p>
                 </div>
-                <span className="hidden font-mono text-[10px] tracking-[0.16em] text-muted/60 sm:block">
-                  ENQ / 01
-                </span>
               </div>
 
               <Suspense fallback={<ContactFormFallback />}>

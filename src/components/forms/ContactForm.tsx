@@ -32,7 +32,7 @@ const defaultValues: ContactFormValues = {
 
 const labelClass = "mb-2 block text-[13px] font-medium text-ink";
 const fieldClass =
-  "h-12 w-full rounded-lg border border-line bg-white px-4 text-[15px] text-ink placeholder:text-slate-400 transition-colors focus:border-brand focus:outline-none focus:ring-2 focus:ring-brand/15 aria-[invalid=true]:border-red-400 aria-[invalid=true]:focus:ring-red-100";
+  "h-12 w-full rounded-lg border border-line bg-white px-4 text-[15px] text-ink placeholder:text-slate-500 transition-colors focus:border-brand focus:outline-none focus:ring-2 focus:ring-brand/15 aria-[invalid=true]:border-red-400 aria-[invalid=true]:focus:ring-red-100";
 
 type ApiResponse = {
   ok?: boolean;
@@ -238,8 +238,8 @@ export function ContactForm() {
 
         <div className="sm:col-span-2">
           <label htmlFor="company" className={labelClass}>
-            Company name{" "}
-            <span className="font-normal text-muted/60">Optional</span>
+            Company{" "}
+            <span className="font-normal text-muted">Optional</span>
           </label>
           <input
             id="company"
@@ -257,7 +257,7 @@ export function ContactForm() {
 
         <div className="sm:col-span-2">
           <label htmlFor="service" className={labelClass}>
-            Service interested in
+            Service
           </label>
           <div className="relative">
             <select
