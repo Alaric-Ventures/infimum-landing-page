@@ -50,7 +50,7 @@ The track renders the sequence twice. The duplicate is `aria-hidden`, its images
 
 ### Replacing the placeholders
 
-Replace the files in `public/images/gallery/` and update the entries in `src/data/gallery.ts` (including alt text and credit). The current set contains nine local images: four client-supplied placeholders (cloud architecture, modern workspace, server infrastructure, developer workspace) and five Unsplash photographs used under the [Unsplash License](https://unsplash.com/license). Replace these with owned or commissioned photography before launch.
+The gallery now uses four client-supplied images from `public/branding/` only. See `src/data/gallery.ts` for alt text and captions; no third-party placeholder photography is used.
 
 ## Contact email
 
@@ -83,9 +83,9 @@ Screenshots and the machine-readable report are written to `_screenshots/` (giti
 
 - Configure Resend and verify the sending domain.
 - Confirm the canonical production domain in `NEXT_PUBLIC_SITE_URL`.
-- Confirm the phone numbers, Sydney/New York labels and any legal/consent requirements.
+- Confirm the phone numbers and any legal/consent requirements; privacy policy URL is still a launch dependency.
 - Replace the raster logo with a vector version if available.
-- Replace the carousel placeholders with owned or licensed photography and confirm credits.
+- Confirm carousel image rights/captions for the four client-supplied images.
 - Decide whether a privacy policy and consent copy are required.
 - A nonce-based Content Security Policy is not enabled because it would force dynamic rendering; add it if the deployment model allows.
 - Lighthouse was not run as part of this pass; no score is claimed.

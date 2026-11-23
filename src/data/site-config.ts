@@ -14,13 +14,11 @@ export const siteConfig = {
   phones: [
     {
       region: "Australia",
-      city: "Sydney, NSW",
       display: "+61 405 364 625",
       href: "+61405364625",
     },
     {
       region: "United States",
-      city: "New York, US",
       display: "+1 970 387 8989",
       href: "+19703878989",
     },

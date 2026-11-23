@@ -31,7 +31,7 @@ export function HeroSection() {
               className="eyebrow animate-rise text-balance text-[9px] tracking-[0.13em] text-accent sm:text-[11px] sm:tracking-[0.2em]"
               style={{ animationDelay: "40ms" }}
             >
-              Technology consulting • Digital innovation
+              Technology consulting
             </p>
 
             <h1
@@ -64,8 +64,8 @@ export function HeroSection() {
               className="animate-rise mt-8 max-w-xl text-[1.0625rem] leading-7 text-white/65 sm:leading-8"
               style={{ animationDelay: "180ms" }}
             >
-              Infimum builds practical digital solutions across software, web,
-              mobile, cloud and Microsoft 365.
+              Infimum Consulting delivers software, web, mobile and cloud
+              solutions designed around business needs.
             </p>
 
             <div

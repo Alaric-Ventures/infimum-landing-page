@@ -1,6 +1,7 @@
 "use client";
 
 import Image from "next/image";
+import { Pause, Play } from "lucide-react";
 import {
   motion,
   useAnimationFrame,
@@ -90,10 +91,23 @@ export function InfiniteImageMarquee({
   const loopWidthRef = useRef(0);
   const visibleRef = useRef(false);
   const hoveredRef = useRef(false);
+  const pausedRef = useRef(false);
+  const [userPaused, setUserPaused] = useState(false);
+  const [mounted, setMounted] = useState(false);
   const focusedRef = useRef(false);
   const draggingRef = useRef(false);
   const [loopWidth, setLoopWidth] = useState(0);
   const prefersReducedMotion = useReducedMotion();
+  useEffect(() => {
+    const frame = requestAnimationFrame(() => setMounted(true));
+    return () => cancelAnimationFrame(frame);
+  }, []);
+  const reducedMotion = mounted ? prefersReducedMotion : false;
+  const paused = Boolean(reducedMotion) || userPaused;
+
+  useEffect(() => {
+    pausedRef.current = paused;
+  }, [paused]);
 
   useEffect(() => {
     const region = regionRef.current;
@@ -144,6 +158,7 @@ export function InfiniteImageMarquee({
   useAnimationFrame((_time, delta) => {
     if (
       prefersReducedMotion ||
+      pausedRef.current ||
       !visibleRef.current ||
       hoveredRef.current ||
       focusedRef.current ||
@@ -178,6 +193,11 @@ export function InfiniteImageMarquee({
     }
 
     x.set(next);
+  }
+
+  function togglePaused() {
+    if (prefersReducedMotion) return;
+    setUserPaused((value) => !value);
   }
 
   function handleKeyDown(event: KeyboardEvent<HTMLDivElement>) {
@@ -277,9 +297,24 @@ export function InfiniteImageMarquee({
           </div>
         </div>
 
+        <button
+          type="button"
+          onClick={togglePaused}
+          disabled={Boolean(reducedMotion)}
+          aria-pressed={paused}
+          aria-label={paused ? "Play carousel" : "Pause carousel"}
+          className="absolute right-3 top-3 z-10 inline-flex size-9 items-center justify-center rounded-full border border-white/15 bg-midnight/70 text-white/80 backdrop-blur transition-colors hover:bg-midnight/90 hover:text-white focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent disabled:cursor-not-allowed disabled:opacity-40"
+        >
+          {paused ? (
+            <Play className="size-4" aria-hidden="true" />
+          ) : (
+            <Pause className="size-4" aria-hidden="true" />
+          )}
+        </button>
+
         <p id={INSTRUCTIONS_ID} className="sr-only">
-          Use the left and right arrow keys to move through the showcase, or
-          drag it with a pointer.
+          Use the left and right arrow keys to move through the showcase, drag
+          it with a pointer, or use the pause button to stop automatic motion.
         </p>
       </div>
     </div>

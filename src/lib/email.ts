@@ -43,6 +43,7 @@ export async function sendContactEmail(
     dateStyle: "medium",
     timeStyle: "short",
     timeZone: "Australia/Sydney",
+    timeZoneName: "short",
   }).format(new Date());
 
   const text = [
@@ -52,7 +53,7 @@ export async function sendContactEmail(
     `Email: ${values.email}`,
     `Company: ${company}`,
     `Service: ${serviceLabel}`,
-    `Submitted: ${submittedAt} (Sydney time)`,
+    `Submitted: ${submittedAt}`,
     "",
     "Project details:",
     values.message,
@@ -70,7 +71,7 @@ export async function sendContactEmail(
           <tr><td style="padding:6px 0;color:#64748b;">Email</td><td style="padding:6px 0;">${escapeHtml(values.email)}</td></tr>
           <tr><td style="padding:6px 0;color:#64748b;">Company</td><td style="padding:6px 0;">${escapeHtml(company)}</td></tr>
           <tr><td style="padding:6px 0;color:#64748b;">Service</td><td style="padding:6px 0;">${escapeHtml(serviceLabel)}</td></tr>
-          <tr><td style="padding:6px 0;color:#64748b;">Submitted</td><td style="padding:6px 0;">${escapeHtml(submittedAt)} (Sydney time)</td></tr>
+          <tr><td style="padding:6px 0;color:#64748b;">Submitted</td><td style="padding:6px 0;">${escapeHtml(submittedAt)}</td></tr>
         </table>
         <hr style="border:0;border-top:1px solid #e2e8f0;margin:20px 0;" />
         <p style="margin:0 0 6px;color:#64748b;font-size:12px;text-transform:uppercase;letter-spacing:1.5px;">Project details</p>

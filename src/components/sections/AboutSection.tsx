@@ -72,10 +72,10 @@ export function AboutSection() {
             <Reveal delay={0.12}>
               <div className="mt-7 max-w-xl space-y-5 text-[1.0625rem] leading-7 text-muted">
                 <p>
-                  Infimum Consulting is an IT consultancy and managed services
-                  partner. We work with organisations to plan, design and deliver
-                  technology across custom applications, digital experiences,
-                  cloud infrastructure and Microsoft 365.
+                  Infimum Consulting is an IT consultancy. We work with
+                  organisations to plan, design and deliver technology across
+                  custom applications, digital experiences, cloud infrastructure
+                  and Microsoft 365.
                 </p>
                 <p>
                   Our starting point is the business need: how work gets done,

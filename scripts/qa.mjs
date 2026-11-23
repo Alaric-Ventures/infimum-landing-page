@@ -297,8 +297,8 @@ try {
   report.functional.push({
     name: "Hero carousel: seamless duplicate, movement, pause and reduced motion",
     pass:
-      galleryMetrics.cardCount === 18 &&
-      galleryMetrics.firstAltCount === 9 &&
+      galleryMetrics.cardCount === 8 &&
+      galleryMetrics.firstAltCount === 4 &&
       galleryMetrics.duplicateAltCount === 0 &&
       galleryMetrics.duplicateAriaHidden === "true" &&
       galleryMetrics.equalGroupWidths &&
