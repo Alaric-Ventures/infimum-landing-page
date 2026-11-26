@@ -1,10 +1,13 @@
+import Image from "next/image";
 import { ArrowDown, ArrowUpRight } from "lucide-react";
 
-import { InfiniteImageMarquee } from "@/components/gallery/InfiniteImageMarquee";
+import { DeferredHeroMarquee } from "@/components/gallery/DeferredHeroMarquee";
 import { Button } from "@/components/ui/Button";
 import { galleryConfig, galleryImages } from "@/data/gallery";
 
 export function HeroSection() {
+  const firstImage = galleryImages[0];
+
   return (
     <section
       id="home"
@@ -12,10 +15,23 @@ export function HeroSection() {
       className="relative flex min-h-[82vh] items-center overflow-hidden bg-midnight text-white"
     >
       <div className="absolute inset-0 z-0">
-        <InfiniteImageMarquee
+        {firstImage ? (
+          <Image
+            src={firstImage.src}
+            alt=""
+            fill
+            sizes="100vw"
+            quality={65}
+            loading="eager"
+            decoding="sync"
+            fetchPriority="high"
+            draggable={false}
+            className="object-cover"
+          />
+        ) : null}
+        <DeferredHeroMarquee
           images={galleryImages}
           durationSeconds={galleryConfig.durationSeconds}
-          eagerCount={1}
         />
       </div>
 

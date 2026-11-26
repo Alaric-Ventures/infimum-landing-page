@@ -63,7 +63,7 @@ export function AboutSection() {
       className="relative overflow-hidden bg-canvas py-24 sm:py-28 lg:py-36"
     >
       <div
-        className="pointer-events-none absolute right-0 top-0 h-[34rem] w-[34rem] translate-x-1/3 -translate-y-1/4 rounded-full bg-brand/[0.06] blur-[100px]"
+        className="pointer-events-none absolute right-0 top-0 h-[34rem] w-[34rem] translate-x-1/3 -translate-y-1/4 rounded-full bg-[radial-gradient(circle,rgba(37,99,235,0.07)_0%,transparent_70%)]"
         aria-hidden="true"
       />
       <div className="shell relative">
@@ -149,7 +149,7 @@ export function AboutSection() {
             <Reveal delay={0.1} y={24} className="h-full">
               <div className="relative flex h-full flex-col">
                 <div
-                  className="pointer-events-none absolute -inset-6 rounded-[2rem] bg-brand/[0.05] blur-2xl lg:-inset-10"
+                  className="pointer-events-none absolute -inset-6 rounded-[2rem] bg-[radial-gradient(circle,rgba(37,99,235,0.06)_0%,transparent_75%)] lg:-inset-10"
                   aria-hidden="true"
                 />
                 <div className="relative flex flex-1 flex-col overflow-hidden rounded-2xl border border-line bg-white shadow-[0_30px_90px_-50px_rgba(15,23,42,0.45)]">

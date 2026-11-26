@@ -1,10 +1,9 @@
 @import "tailwindcss";
 
 @theme {
-  --font-sans: var(--font-inter), ui-sans-serif, system-ui, -apple-system,
+  --font-sans: var(--font-jakarta), ui-sans-serif, system-ui, -apple-system,
     "Segoe UI", sans-serif;
-  --font-display: var(--font-jakarta), var(--font-inter), ui-sans-serif,
-    system-ui, sans-serif;
+  --font-display: var(--font-jakarta), ui-sans-serif, system-ui, sans-serif;
 
   --color-midnight: #0b1221;
   --color-deep: #111c31;
@@ -41,7 +40,6 @@
     font-family: var(--font-sans);
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
-    text-rendering: optimizeLegibility;
   }
 
   h1,
@@ -215,6 +213,37 @@
   to {
     transform: rotate(360deg);
   }
+}
+
+/* Hero marquee: slides the track left by one full set of images.
+   The `--marquee-count` custom property is set inline on the track element. */
+@keyframes marquee-scroll {
+  from {
+    transform: translate3d(0, 0, 0);
+  }
+  to {
+    transform: translate3d(calc(-100vw * var(--marquee-count, 4)), 0, 0);
+  }
+}
+
+/* Below-fold sections — skip layout / paint work until near the viewport. */
+.content-defer {
+  content-visibility: auto;
+  contain-intrinsic-size: auto 600px;
+}
+
+/* Lightweight CSS reveal — avoids per-element inline style mutations. */
+[data-reveal] {
+  opacity: 0;
+  transform: translate3d(0, var(--reveal-y, 18px), 0);
+  transition:
+    opacity 0.65s var(--ease-out-expo) var(--reveal-delay, 0s),
+    transform 0.65s var(--ease-out-expo) var(--reveal-delay, 0s);
+}
+
+[data-reveal="visible"] {
+  opacity: 1;
+  transform: translate3d(0, 0, 0);
 }
 
 @media (prefers-reduced-motion: reduce) {

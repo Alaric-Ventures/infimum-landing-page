@@ -42,5 +42,9 @@
     "tailwindcss": "^4.3.5",
     "typescript": "^6.0.3"
   },
+  "browserslist": [
+    "defaults and fully supports es6-module",
+    "maintained node versions"
+  ],
   "private": "true"
 }

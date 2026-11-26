@@ -1,7 +1,6 @@
-import { Suspense } from "react";
 import { ArrowUpRight, Check, Phone } from "lucide-react";
 
-import { ContactForm } from "@/components/forms/ContactForm";
+import { LazyContactForm } from "@/components/forms/LazyContactForm";
 import { Reveal } from "@/components/ui/Reveal";
 import { siteConfig } from "@/data/site-config";
 
@@ -28,7 +27,7 @@ export function ContactSection() {
       className="relative overflow-hidden bg-white py-24 sm:py-28 lg:py-36"
     >
       <div
-        className="pointer-events-none absolute -left-40 top-1/4 size-[30rem] rounded-full bg-brand/[0.05] blur-[110px]"
+        className="pointer-events-none absolute -left-40 top-1/4 size-[30rem] rounded-full bg-[radial-gradient(circle,rgba(37,99,235,0.06)_0%,transparent_70%)]"
         aria-hidden="true"
       />
 
@@ -121,9 +120,7 @@ export function ContactSection() {
                 </div>
               </div>
 
-              <Suspense fallback={<ContactFormFallback />}>
-                <ContactForm />
-              </Suspense>
+              <LazyContactForm fallback={<ContactFormFallback />} />
             </div>
           </Reveal>
         </div>

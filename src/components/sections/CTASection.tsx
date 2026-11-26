@@ -13,7 +13,7 @@ export function CTASection() {
         aria-hidden="true"
       />
       <div
-        className="pointer-events-none absolute -left-24 top-1/2 size-[24rem] -translate-y-1/2 rounded-full bg-brand/15 blur-[120px]"
+        className="pointer-events-none absolute -left-24 top-1/2 size-[24rem] -translate-y-1/2 rounded-full bg-[radial-gradient(circle,rgba(37,99,235,0.18)_0%,transparent_70%)]"
         aria-hidden="true"
       />
       <div

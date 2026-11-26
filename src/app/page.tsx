@@ -1,15 +1,41 @@
 import type { Metadata } from "next";
+import dynamic from "next/dynamic";
 
 import { AboutSection } from "@/components/sections/AboutSection";
 import { CapabilitiesSection } from "@/components/sections/CapabilitiesSection";
-import { ContactSection } from "@/components/sections/ContactSection";
-import { CTASection } from "@/components/sections/CTASection";
 import { HeroSection } from "@/components/sections/HeroSection";
-import { ProcessSection } from "@/components/sections/ProcessSection";
 import { ServicesSection } from "@/components/sections/ServicesSection";
-import { WhyChooseUsSection } from "@/components/sections/WhyChooseUsSection";
 import { services } from "@/data/services";
 import { siteConfig } from "@/data/site-config";
+
+// Lazy-load below-fold sections to reduce initial JS bundle.
+// These sections are well below the viewport on mobile and don't affect LCP/FCP.
+const WhyChooseUsSection = dynamic(
+  () =>
+    import("@/components/sections/WhyChooseUsSection").then(
+      (mod) => mod.WhyChooseUsSection,
+    ),
+  { ssr: true },
+);
+const ProcessSection = dynamic(
+  () =>
+    import("@/components/sections/ProcessSection").then(
+      (mod) => mod.ProcessSection,
+    ),
+  { ssr: true },
+);
+const CTASection = dynamic(
+  () =>
+    import("@/components/sections/CTASection").then((mod) => mod.CTASection),
+  { ssr: true },
+);
+const ContactSection = dynamic(
+  () =>
+    import("@/components/sections/ContactSection").then(
+      (mod) => mod.ContactSection,
+    ),
+  { ssr: true },
+);
 
 export const metadata: Metadata = {
   alternates: { canonical: "/" },
@@ -65,10 +91,18 @@ export default function HomePage() {
       <CapabilitiesSection />
       <AboutSection />
       <ServicesSection />
-      <WhyChooseUsSection />
-      <ProcessSection />
-      <CTASection />
-      <ContactSection />
+      <div className="content-defer">
+        <WhyChooseUsSection />
+      </div>
+      <div className="content-defer">
+        <ProcessSection />
+      </div>
+      <div className="content-defer">
+        <CTASection />
+      </div>
+      <div className="content-defer">
+        <ContactSection />
+      </div>
     </>
   );
 }

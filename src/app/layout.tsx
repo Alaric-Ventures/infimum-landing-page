@@ -1,17 +1,11 @@
 import type { Metadata, Viewport } from "next";
-import { Inter, Plus_Jakarta_Sans } from "next/font/google";
+import { Plus_Jakarta_Sans } from "next/font/google";
 
 import { Footer } from "@/components/layout/Footer";
 import { Header } from "@/components/layout/Header";
 import { siteConfig } from "@/data/site-config";
 
 import "./globals.css";
-
-const inter = Inter({
-  subsets: ["latin"],
-  variable: "--font-inter",
-  display: "swap",
-});
 
 const jakarta = Plus_Jakarta_Sans({
   subsets: ["latin"],
@@ -98,7 +92,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en-AU" className={`${inter.variable} ${jakarta.variable}`}>
+    <html lang="en-AU" className={jakarta.variable}>
       <body className="min-h-dvh overflow-x-clip bg-white">
         <noscript>
           <style>{`[data-reveal] { opacity: 1 !important; transform: none !important; }`}</style>

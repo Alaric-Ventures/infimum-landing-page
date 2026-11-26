@@ -64,7 +64,7 @@ export function ServicesSection() {
                         aria-hidden="true"
                       />
                       <div
-                        className="pointer-events-none absolute -right-24 -top-24 size-64 rounded-full bg-brand/25 blur-3xl"
+                        className="pointer-events-none absolute -right-24 -top-24 size-64 rounded-full bg-[radial-gradient(circle,rgba(37,99,235,0.28)_0%,transparent_70%)]"
                         aria-hidden="true"
                       />
                     </>

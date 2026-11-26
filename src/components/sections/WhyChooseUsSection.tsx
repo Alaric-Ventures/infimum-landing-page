@@ -41,11 +41,11 @@ export function WhyChooseUsSection() {
         aria-hidden="true"
       />
       <div
-        className="pointer-events-none absolute -right-20 top-0 size-[30rem] rounded-full bg-brand/15 blur-[130px]"
+        className="pointer-events-none absolute -right-20 top-0 size-[30rem] rounded-full bg-[radial-gradient(circle,rgba(37,99,235,0.18)_0%,transparent_70%)]"
         aria-hidden="true"
       />
       <div
-        className="pointer-events-none absolute -bottom-40 left-1/4 size-[26rem] rounded-full bg-accent/[0.07] blur-[120px]"
+        className="pointer-events-none absolute -bottom-40 left-1/4 size-[26rem] rounded-full bg-[radial-gradient(circle,rgba(6,182,212,0.09)_0%,transparent_70%)]"
         aria-hidden="true"
       />
 

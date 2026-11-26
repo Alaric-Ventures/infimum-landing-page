@@ -63,6 +63,21 @@ const nextConfig: NextConfig = {
   distDir: process.env.NEXT_DIST_DIR || ".next",
   poweredByHeader: false,
   reactStrictMode: true,
+
+  // ── Performance optimisations ──
+  experimental: {
+    inlineCss: true,
+    optimizePackageImports: [
+      "lucide-react",
+      "motion",
+      "motion/react",
+      "@radix-ui/react-dialog",
+      "@radix-ui/react-accordion",
+      "react-hook-form",
+      "zod",
+    ],
+  },
+
   async headers() {
     return [{ source: "/:path*", headers: securityHeaders }];
   },

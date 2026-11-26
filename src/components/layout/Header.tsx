@@ -1,13 +1,21 @@
 "use client";
 
+import dynamic from "next/dynamic";
 import { useEffect, useState } from "react";
 import { ArrowUpRight, Menu } from "lucide-react";
 
 import { Logo } from "@/components/layout/Logo";
-import { MobileNavigation } from "@/components/layout/MobileNavigation";
 import { Button } from "@/components/ui/Button";
 import { navigation, sectionIds } from "@/data/navigation";
 import { cn } from "@/lib/utils";
+
+const MobileNavigation = dynamic(
+  () =>
+    import("@/components/layout/MobileNavigation").then(
+      (mod) => mod.MobileNavigation,
+    ),
+  { ssr: false },
+);
 
 export function Header() {
   const [scrolled, setScrolled] = useState(false);
@@ -15,10 +23,22 @@ export function Header() {
   const [activeSection, setActiveSection] = useState("home");
 
   useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 24);
-    onScroll();
+    let ticking = false;
+    const onScroll = () => {
+      if (!ticking) {
+        ticking = true;
+        requestAnimationFrame(() => {
+          setScrolled(window.scrollY > 24);
+          ticking = false;
+        });
+      }
+    };
+    const initTimer = window.setTimeout(onScroll, 0);
     window.addEventListener("scroll", onScroll, { passive: true });
-    return () => window.removeEventListener("scroll", onScroll);
+    return () => {
+      window.clearTimeout(initTimer);
+      window.removeEventListener("scroll", onScroll);
+    };
   }, []);
 
   useEffect(() => {
@@ -68,7 +88,7 @@ export function Header() {
                   : "bg-white px-2.5 py-2 shadow-[0_12px_36px_-16px_rgba(0,0,0,0.55)]",
               )}
             >
-              <Logo priority alt="" />
+              <Logo alt="" />
             </span>
           </a>
 
@@ -138,7 +158,9 @@ export function Header() {
         </div>
       </header>
 
-      <MobileNavigation open={menuOpen} onOpenChange={setMenuOpen} />
+      {menuOpen ? (
+        <MobileNavigation open={menuOpen} onOpenChange={setMenuOpen} />
+      ) : null}
     </>
   );
 }

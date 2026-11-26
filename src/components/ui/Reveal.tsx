@@ -1,7 +1,6 @@
 "use client";
 
-import { motion } from "motion/react";
-import type { ReactNode } from "react";
+import { useEffect, useRef, type CSSProperties, type ReactNode } from "react";
 
 type RevealProps = {
   children: ReactNode;
@@ -10,27 +9,73 @@ type RevealProps = {
   y?: number;
 };
 
+const revealedElements = new WeakMap<Element, () => void>();
+let sharedObserver: IntersectionObserver | null = null;
+let pendingReveals: Element[] = [];
+let rafScheduled = false;
+
+function flushReveals() {
+  rafScheduled = false;
+  const batch = pendingReveals;
+  pendingReveals = [];
+  for (const el of batch) {
+    el.setAttribute("data-reveal", "visible");
+    revealedElements.delete(el);
+  }
+}
+
+function getSharedObserver(): IntersectionObserver {
+  if (!sharedObserver) {
+    sharedObserver = new IntersectionObserver(
+      (entries) => {
+        for (const entry of entries) {
+          if (entry.isIntersecting) {
+            pendingReveals.push(entry.target);
+            sharedObserver?.unobserve(entry.target);
+          }
+        }
+        if (pendingReveals.length > 0 && !rafScheduled) {
+          rafScheduled = true;
+          requestAnimationFrame(flushReveals);
+        }
+      },
+      { rootMargin: "-70px 0px" },
+    );
+  }
+  return sharedObserver;
+}
+
 /**
- * Small client boundary that reveals content once as it enters the viewport.
- * Only opacity and transform are animated. The [data-reveal] hook lets the
- * reduced-motion stylesheet show the content immediately, with matching
- * server and client markup.
+ * Lightweight reveal component using a single shared IntersectionObserver
+ * and CSS attribute transitions batched in requestAnimationFrame.
  */
 export function Reveal({ children, className, delay = 0, y = 18 }: RevealProps) {
+  const ref = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const el = ref.current;
+    if (!el) return;
+
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+      el.setAttribute("data-reveal", "visible");
+      return;
+    }
+
+    const observer = getSharedObserver();
+    observer.observe(el);
+    return () => {
+      observer.unobserve(el);
+    };
+  }, []);
+
+  const style = {
+    "--reveal-delay": `${delay}s`,
+    "--reveal-y": `${y}px`,
+  } as CSSProperties;
+
   return (
-    <motion.div
-      data-reveal
-      className={className}
-      initial={{ opacity: 0, y }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true, margin: "-70px 0px" }}
-      transition={{
-        duration: 0.65,
-        delay,
-        ease: [0.22, 1, 0.36, 1],
-      }}
-    >
+    <div ref={ref} data-reveal="" className={className} style={style}>
       {children}
-    </motion.div>
+    </div>
   );
 }
