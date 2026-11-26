@@ -5,22 +5,26 @@ import { Reveal } from "@/components/ui/Reveal";
 const capabilities = [
   {
     title: "Digital transformation",
-    description: "Modernising how the business works.",
+    description:
+      "Modernising legacy workflows with automation, data-driven insights and connected platforms that help teams work smarter.",
     icon: Compass,
   },
   {
     title: "Software engineering",
-    description: "Applications built for real operations.",
+    description:
+      "Purpose-built web, mobile and enterprise applications designed for reliability, maintainability and real-world operations.",
     icon: Code,
   },
   {
     title: "Cloud solutions",
-    description: "Infrastructure that supports growth.",
+    description:
+      "Scalable cloud architecture on Azure, AWS and hybrid environments — from migration planning through to managed operations.",
     icon: Cloud,
   },
   {
     title: "Technology consulting",
-    description: "Decisions grounded in business need.",
+    description:
+      "Independent, vendor-neutral advice that aligns technology investments with your commercial goals and operational priorities.",
     icon: Workflow,
   },
 ];

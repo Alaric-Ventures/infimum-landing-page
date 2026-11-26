@@ -27,25 +27,29 @@ const propositions = [
 const operatingLayers = [
   {
     title: "Strategy & architecture",
-    description: "Business requirements, planning and system design.",
+    description:
+      "We map your business requirements to a technology blueprint — aligning stakeholder goals, defining system boundaries and producing architecture that scales with the organisation.",
     icon: Compass,
     theme: "light" as const,
   },
   {
     title: "Engineering & integration",
-    description: "Custom applications and connected business systems.",
+    description:
+      "Our engineers build custom applications and connect your existing systems through clean APIs, middleware and data pipelines — so information flows where it's needed, automatically.",
     icon: Code2,
     theme: "dark" as const,
   },
   {
     title: "Cloud & infrastructure",
-    description: "Cloud platforms, infrastructure and migration.",
+    description:
+      "From cloud-readiness assessments to full migration and managed hosting, we design resilient infrastructure on Azure, AWS or hybrid environments tailored to your workloads.",
     icon: Cloud,
     theme: "light" as const,
   },
   {
     title: "Support & optimisation",
-    description: "Ongoing support, refinement and improvement.",
+    description:
+      "Post-launch, we monitor performance, resolve issues and continuously refine your systems — ensuring uptime, security patches and iterative improvements as your needs evolve.",
     icon: LifeBuoy,
     theme: "light" as const,
   },
